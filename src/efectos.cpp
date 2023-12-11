@@ -68,7 +68,6 @@ void efecto3() {
         int l=getBufferIndex(x, y);
         hue=getLienzoH2(x,y);
         sat=getLienzoS2(x,y);
-
         val=getLienzoV2(x,y);
         if (val > 180)
           val=180;
@@ -79,7 +78,7 @@ void efecto3() {
   //FastLED.show();
   if (millis()-effectTimer > 10000) { //10000
     effectTimer=millis();
-    count++;
+    //count++;
     if (count>=10)
       count=0;
       
