@@ -78,7 +78,7 @@ unsigned int baseHue=0;
 
 
 void loop() {
-  efecto3( 100 , 1 );
+  efecto3( 100 , 3 );
 }
 
 

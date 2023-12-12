@@ -46,47 +46,68 @@ void borrar() {
 
 // LIENZO ROTAR
 void efecto3(int speed, int type_colorTransition) {
-  //SACAR LO QUE DA MARRON
+  
+  //inicialization of variables
   uint8_t hue=0;
   uint8_t sat=0;
   uint8_t val=0;
   unsigned long effectTimer=millis();
   double countSin=0;
   float value_colorTransition = 0;
+  
+  //cleans the canvas
   borrar();
-  Serial.println("EFECTO 3"); 
+  
+  //serial function parameters
+  Serial.println("EFECTO LIENZO ROTAR: ");
+  Serial.print(speed);
+  Serial.print(" ");
+  Serial.print(type_colorTransition);
 
+  //initializes the matrix
   for (int n=0; n<400; n++) {
     lienzoHSV2[n][0]=0;
     lienzoHSV2[n][1]=lienzoHSV[n][1];
     lienzoHSV2[n][2]=lienzoHSV[n][2];
   }
+  
+  //efect loop
   while (efectoIdx==3) {
+    //actualizes H S V for every led
     for (int y=0; y<20; y++) {
       for (int x=0; x<20; x++) {
         int l=getBufferIndex(x, y);
         hue=getLienzoH2(x,y);
         sat=getLienzoS2(x,y);
         val=getLienzoV2(x,y);
-        if (val > 180)
-          val=180;
         updatePixel(l, hue, sat, val);
       }
    }
+
+  //timer for the color transition
+  if (millis()-effectTimer > speed) { //10000
+    countSin = countSin + 0.05;
+    effectTimer=millis();
+  }
+  
+  //drives the type of colorTransistor
   switch (type_colorTransition)
   {
   case 1:
     value_colorTransition = abs(sin(countSin));
     break;
+  case 2:
+    value_colorTransition = abs(sin(sqrt(countSin)));
+    break;
+  case 3:
+    value_colorTransition = abs(sin(tan(countSin)));
+    break;  
   default:
     value_colorTransition = 1;
     break;
-  }
-  //FastLED.show();
-  if (millis()-effectTimer > speed) { //10000
-    countSin = countSin + 0.05;
-    effectTimer=millis();
-  }
+  }  
+
+
   for (int n=0; n<400; n++) {
     uint8_t hueLienzo = lienzoHSV2[n][0];
     hueLienzo++;
