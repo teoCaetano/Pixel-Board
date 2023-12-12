@@ -45,13 +45,14 @@ void borrar() {
 }
 
 // LIENZO ROTAR
-void efecto3() {
+void efecto3(int speed, int type_colorTransition) {
   //SACAR LO QUE DA MARRON
   uint8_t hue=0;
   uint8_t sat=0;
   uint8_t val=0;
   unsigned long effectTimer=millis();
   double countSin=0;
+  float value_colorTransition = 0;
   borrar();
   Serial.println("EFECTO 3"); 
 
@@ -72,10 +73,18 @@ void efecto3() {
         updatePixel(l, hue, sat, val);
       }
    }
-  
+  switch (type_colorTransition)
+  {
+  case 1:
+    value_colorTransition = abs(sin(countSin));
+    break;
+  default:
+    value_colorTransition = 1;
+    break;
+  }
   //FastLED.show();
-  if (millis()-effectTimer > 100) { //10000
-    countSin = countSin + 0.08;
+  if (millis()-effectTimer > speed) { //10000
+    countSin = countSin + 0.05;
     effectTimer=millis();
   }
   for (int n=0; n<400; n++) {
@@ -87,8 +96,8 @@ void efecto3() {
     }
     lienzoHSV2[n][0] = hueLienzo;
     }
-  Serial.println(abs(sin(countSin)));
-  delay ((100*abs(sin(countSin)))+5);
+  Serial.println(value_colorTransition);
+  delay ((sp*10*value_colorTransition)+5);
   serialCheck();
   }
 }

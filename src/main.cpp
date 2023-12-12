@@ -10,7 +10,7 @@ int efectoIdx=3;
 int efectoIdxLast=0;
 int br=BRIGHTNESS;
 int newBr=br;
-int sp=5;
+int sp=10;
 
 
 
@@ -78,7 +78,7 @@ unsigned int baseHue=0;
 
 
 void loop() {
-  efecto3();
+  efecto3( 100 , 1 );
 }
 
 
