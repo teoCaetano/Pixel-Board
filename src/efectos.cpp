@@ -48,18 +48,16 @@ void borrar() {
 void efecto3() {
   //SACAR LO QUE DA MARRON
   uint8_t hue=0;
-  int sat=0;
-  int val=0;
+  uint8_t sat=0;
+  uint8_t val=0;
   unsigned long effectTimer=millis();
-  int count=0;
+  double countSin=0;
   borrar();
   Serial.println("EFECTO 3"); 
 
   for (int n=0; n<400; n++) {
     lienzoHSV2[n][0]=0;
-    
     lienzoHSV2[n][1]=lienzoHSV[n][1];
-    
     lienzoHSV2[n][2]=lienzoHSV[n][2];
   }
   while (efectoIdx==3) {
@@ -76,26 +74,22 @@ void efecto3() {
    }
   
   //FastLED.show();
-  if (millis()-effectTimer > 10000) { //10000
+  if (millis()-effectTimer > 100) { //10000
+    countSin = countSin + 0.08;
     effectTimer=millis();
-    //count++;
-    if (count>=10)
-      count=0;
-      
-    Serial.println(count);
   }
   for (int n=0; n<400; n++) {
-    int h=lienzoHSV2[n][0];
-    int b=count * 20; //20
-    if (count == 0) {
-      lienzoHSV2[n][0]++;
+    uint8_t hueLienzo = lienzoHSV2[n][0];
+    hueLienzo++;
+    if(hueLienzo == 255)
+    {
+      hueLienzo = 0;
     }
-    else if (h<b || h > b+10)
-      lienzoHSV2[n][0]++;
+    lienzoHSV2[n][0] = hueLienzo;
     }
-  delay (sp*10);
+  Serial.println(abs(sin(countSin)));
+  delay ((100*abs(sin(countSin)))+5);
   serialCheck();
-
   }
 }
 
