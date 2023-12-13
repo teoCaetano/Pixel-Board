@@ -51,6 +51,8 @@ void efecto3(bool enable_colorTransition, int speed_colorTransition, int type_co
   uint8_t hue=0;
   uint8_t sat=0;
   uint8_t val=0;
+  int delay_Transition = 0;
+  unsigned long timer_Transition=millis();
   unsigned long timer_colorTransition=millis();
   unsigned long timer_brightnessTransition=millis();
   double count_colorTransition = 0;
@@ -69,7 +71,7 @@ void efecto3(bool enable_colorTransition, int speed_colorTransition, int type_co
 
   //initializes the matrix
   for (int n=0; n<400; n++) {
-    lienzoHSV2[n][0]=0;
+    lienzoHSV2[n][0]=hueMin;
     lienzoHSV2[n][1]=lienzoHSV[n][1];
     lienzoHSV2[n][2]=lienzoHSV[n][2];
   }
@@ -94,7 +96,7 @@ void efecto3(bool enable_colorTransition, int speed_colorTransition, int type_co
   //timer for the color transition
   if (enable_colorTransition == true)
   {
-  if (millis()-timer_colorTransition > speed_colorTransition) { //10000
+  if (millis()-timer_colorTransition > speed_colorTransition) { 
     count_colorTransition = count_colorTransition + 0.05;
     timer_colorTransition=millis();
   }
@@ -106,14 +108,20 @@ void efecto3(bool enable_colorTransition, int speed_colorTransition, int type_co
     value_colorTransition = sin(count_colorTransition);
     break;
   case 2:
-    value_colorTransition = sin(sqrt(count_colorTransition));
+    value_colorTransition = (sin(count_colorTransition/3)+cos(count_colorTransition*2))/2;
     break;
   case 3:
     value_colorTransition = sin(tan(count_colorTransition));
     break;
   case 4:
     value_colorTransition = (sin(count_colorTransition)/3) + 0.5;
-    break;    
+    break;
+  case 5:
+    value_colorTransition = (sin(count_colorTransition/2)*cos(count_colorTransition));
+    break;
+  case 6:
+    value_colorTransition = (sin(count_brightnessTransition)+cos(count_brightnessTransition/5))/5 + 0.6;
+    break;            
   default:
     value_colorTransition = 1;
     break;
@@ -130,11 +138,15 @@ void efecto3(bool enable_colorTransition, int speed_colorTransition, int type_co
       value_colorTransition = 0;
     }
   }
+  value_colorTransition = min(value_colorTransition, float(1.0));
+  delay_Transition = sp*10*value_colorTransition+10;
+  Serial.println(delay_Transition);
   }
   if (enable_colorTransition == false)
   {
     value_colorTransition = 1;
     sp = 3;
+    delay_Transition = sp*10*value_colorTransition+10;
   }
   
 
@@ -162,7 +174,10 @@ void efecto3(bool enable_colorTransition, int speed_colorTransition, int type_co
     break;
   case 4:
     value_brightnessTransition = (sin(count_brightnessTransition)/3) + 0.3;
-    break;    
+    break;
+  case 5:
+    value_brightnessTransition = (sin(count_brightnessTransition)+cos(count_brightnessTransition/5))/5 + 0.6;
+    break;     
   default:
     value_brightnessTransition = 1;
     break;
@@ -183,24 +198,22 @@ void efecto3(bool enable_colorTransition, int speed_colorTransition, int type_co
   {
     value_brightnessTransition = 0.1;
   }
-  
   newBr = int(BRIGHTNESS*value_brightnessTransition);
-  Serial.println(newBr);    
   }
   
 
-
-
-  for (int n=0; n<400; n++) {
+  if (millis()-timer_Transition > delay_Transition) { 
+    for (int n=0; n<400; n++) {
     uint8_t hueLienzo = lienzoHSV2[n][0];
     hueLienzo++;
-    if(hueLienzo == 255)
+    if(hueLienzo >= hueMax)
     {
-      hueLienzo = 0;
+      hueLienzo = hueMin;
     }
     lienzoHSV2[n][0] = hueLienzo;
     }
-  delay ((sp*10*value_colorTransition)+10);
+    timer_Transition=millis();
+  }
   serialCheck();
   }
 }

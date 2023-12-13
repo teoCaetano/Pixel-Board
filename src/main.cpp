@@ -73,12 +73,10 @@ void setup() {
                     0);  /* Core where the task should run */
   Serial.println ("START!");
 }
-unsigned int hue=0;
-unsigned int baseHue=0;
 
 
 void loop() {
-  efecto3(false, 100 , 1 , true, false , 50 , 4 , true);
+  efecto3(true, 100 , 5 , true, true , 50 , 4 , true);
 }
 
 

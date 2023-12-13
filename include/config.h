@@ -25,6 +25,9 @@
 #define NUM_EFECTOS 8
 #define FRAME_BUFFER_SIZE 400     //20 x 20
 
+#define hueMin 0
+#define hueMax 255
+
 
 
 #endif
