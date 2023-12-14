@@ -1,10 +1,13 @@
 #ifndef MAIN_H
 #define MAIN_H
-
+#include <Arduino.h>
+#include <FastLED.h>
 #include "efectos.h"
 #include "graphics.h"
 #include "config.h"
 #include "pixeltypes.h"
+#include "classTransition.h"
+#include "main.h"
 
 extern int efectoIdx;
 extern int efectoIdxLast;

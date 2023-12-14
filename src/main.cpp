@@ -1,5 +1,3 @@
-#include <Arduino.h>
-#include <FastLED.h>
 #include "config.h"
 #include "efectos.h"
 #include "graphics.h"
@@ -76,7 +74,7 @@ void setup() {
 
 
 void loop() {
-  efecto3(true, 50 , 5, true, false, 50, 4, true);
+  efecto3();
 }
 
 

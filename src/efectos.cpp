@@ -46,7 +46,7 @@ void borrar() {
 }
 
 // LIENZO ROTAR
-void efecto3(bool enable_colorTransition, int speed_colorTransition, int type_colorTransition, bool absolut_colorTransition ,bool enable_brightnessTransition , int speed_brightnessTransition, int type_brightnessTransition, bool absolut_brightnessTransition) {
+void efecto3() {
   
   //inicialization of variables
   uint8_t hue=0;
@@ -54,21 +54,13 @@ void efecto3(bool enable_colorTransition, int speed_colorTransition, int type_co
   uint8_t val=0;
   int delay_Transition = 0;
   unsigned long timer_Transition=millis();
-  unsigned long timer_colorTransition=millis();
-  unsigned long timer_brightnessTransition=millis();
-  double count_colorTransition = 0;
-  double count_brightnessTransition = 0;
   float value_colorTransition = 0;
   float value_brightnessTransition = 0;
-  classTransition prueba(100,1,true);
+  classTransition color(50,3,true);
+  classTransition brightness(500,4,true);
   //cleans the canvas
   borrar();
   
-  //serial function parameters
-  Serial.println("EFECTO LIENZO ROTAR: ");
-  Serial.print(speed_colorTransition);
-  Serial.print(" ");
-  Serial.print(type_colorTransition);
 
   //initializes the matrix
   for (int n=0; n<400; n++) {
@@ -89,121 +81,18 @@ void efecto3(bool enable_colorTransition, int speed_colorTransition, int type_co
         updatePixel(l, hue, sat, val);
       }
    }
-  prueba.methodValue();
   //---------------------------------------------------------------------------------------------------------
   //color transition code
   //---------------------------------------------------------------------------------------------------------
-
-  //timer for the color transition
-  if (enable_colorTransition == true)
-  {
-  if (millis()-timer_colorTransition > speed_colorTransition) { 
-    count_colorTransition = count_colorTransition + 0.05;
-    timer_colorTransition=millis();
-  }
-
-  //drives the type of colorTransistor
-  switch (type_colorTransition)
-  {
-  case 1:
-    value_colorTransition = sin(count_colorTransition);
-    break;
-  case 2:
-    value_colorTransition = (sin(count_colorTransition/3)+cos(count_colorTransition*2))/2;
-    break;
-  case 3:
-    value_colorTransition = sin(tan(count_colorTransition));
-    break;
-  case 4:
-    value_colorTransition = (sin(count_colorTransition)/3) + 0.6;
-    break;
-  case 5:
-    value_colorTransition = ((sin(count_colorTransition/2)*cos(count_colorTransition))+1)/2;
-    break;
-  case 6:
-    value_colorTransition = (sin(count_colorTransition)+cos(count_colorTransition/5))/3 + 0.5;
-    break;            
-  default:
-    value_colorTransition = 1;
-    break;
-  }
-  //defines if the color trasition is te absolute or just the positives
-  if (absolut_colorTransition == true)
-  {
-    value_colorTransition = abs(value_colorTransition);
-  }
-  if (absolut_colorTransition == false)
-  {
-    if (value_colorTransition < 0)
-    {
-      value_colorTransition = 0;
-    }
-  }
-  value_colorTransition = min(value_colorTransition, float(1.0));
-  /*
-  * @attention delay_Transition - find beter formula for delay
-  */
-
+  value_colorTransition = color.methodValue();
   delay_Transition = sp*10*value_colorTransition+10;
-  }
-  if (enable_colorTransition == false)
-  {
-    value_colorTransition = 1;
-    sp = 3;
-    delay_Transition = sp*10*value_colorTransition+10;
-  }
-  
 
   //---------------------------------------------------------------------------------------------------------
   //brightness transition code
   //---------------------------------------------------------------------------------------------------------
   
-  if (enable_brightnessTransition == true)
-  {
-  if (millis()-timer_brightnessTransition > speed_brightnessTransition) { //10000
-    count_brightnessTransition = count_brightnessTransition + 0.05;
-    timer_brightnessTransition=millis();
-  }  
-
-  switch (type_brightnessTransition)
-  {
-  case 1:
-    value_brightnessTransition = sin(count_brightnessTransition);
-    break;
-  case 2: //esta no
-    value_brightnessTransition = sin(sqrt(count_brightnessTransition));
-    break;
-  case 3:
-    value_brightnessTransition = sin(tan(count_brightnessTransition));
-    break;
-  case 4:
-    value_brightnessTransition = (sin(count_brightnessTransition)/3) + 0.3;
-    break;
-  case 5:
-    value_brightnessTransition = (sin(count_brightnessTransition)+cos(count_brightnessTransition/5))/5 + 0.6;
-    break;     
-  default:
-    value_brightnessTransition = 1;
-    break;
-  }
-  //defines if the color trasition is te absolute or just the positives
-  if (absolut_brightnessTransition == true)
-  {
-    value_brightnessTransition = abs(value_brightnessTransition);
-  }
-  if (absolut_brightnessTransition == false)
-  {
-    if (value_brightnessTransition < 0)
-    {
-      value_brightnessTransition = 0;
-    }
-  }
-  if (value_brightnessTransition<0.1)
-  {
-    value_brightnessTransition = 0.1;
-  }
+  value_brightnessTransition = brightness.methodValue();
   newBr = int(BRIGHTNESS*value_brightnessTransition);
-  }
   
 
   if (millis()-timer_Transition > delay_Transition) { 
