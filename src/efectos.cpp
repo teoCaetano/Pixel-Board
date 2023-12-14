@@ -114,13 +114,13 @@ void efecto3(bool enable_colorTransition, int speed_colorTransition, int type_co
     value_colorTransition = sin(tan(count_colorTransition));
     break;
   case 4:
-    value_colorTransition = (sin(count_colorTransition)/3) + 0.5;
+    value_colorTransition = (sin(count_colorTransition)/3) + 0.6;
     break;
   case 5:
-    value_colorTransition = (sin(count_colorTransition/2)*cos(count_colorTransition));
+    value_colorTransition = ((sin(count_colorTransition/2)*cos(count_colorTransition))+1)/2;
     break;
   case 6:
-    value_colorTransition = (sin(count_brightnessTransition)+cos(count_brightnessTransition/5))/5 + 0.6;
+    value_colorTransition = (sin(count_colorTransition)+cos(count_colorTransition/5))/3 + 0.5;
     break;            
   default:
     value_colorTransition = 1;
@@ -139,8 +139,11 @@ void efecto3(bool enable_colorTransition, int speed_colorTransition, int type_co
     }
   }
   value_colorTransition = min(value_colorTransition, float(1.0));
+  /*
+  * @attention delay_Transition - find beter formula for delay
+  */
+
   delay_Transition = sp*10*value_colorTransition+10;
-  Serial.println(delay_Transition);
   }
   if (enable_colorTransition == false)
   {

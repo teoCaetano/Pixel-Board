@@ -10,7 +10,7 @@ int efectoIdx=3;
 int efectoIdxLast=0;
 int br=BRIGHTNESS;
 int newBr=br;
-int sp=10;
+int sp=9;
 
 
 
@@ -76,7 +76,7 @@ void setup() {
 
 
 void loop() {
-  efecto3(true, 100 , 5 , true, true , 50 , 4 , true);
+  efecto3(true, 50 , 5, true, false, 50, 4, true);
 }
 
 
