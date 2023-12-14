@@ -5,6 +5,7 @@
 #include "config.h"
 #include "main.h"
 #include "frame.h"
+#include "classTransition.h"
 
 void updatePixel(int pixel, int hue, int sat, int val) {
   if (val<0)
@@ -59,7 +60,7 @@ void efecto3(bool enable_colorTransition, int speed_colorTransition, int type_co
   double count_brightnessTransition = 0;
   float value_colorTransition = 0;
   float value_brightnessTransition = 0;
-  
+  classTransition prueba(100,1,true);
   //cleans the canvas
   borrar();
   
@@ -88,7 +89,7 @@ void efecto3(bool enable_colorTransition, int speed_colorTransition, int type_co
         updatePixel(l, hue, sat, val);
       }
    }
-
+  prueba.methodValue();
   //---------------------------------------------------------------------------------------------------------
   //color transition code
   //---------------------------------------------------------------------------------------------------------
