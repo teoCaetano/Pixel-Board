@@ -1,3 +1,5 @@
+#include <Arduino.h>
+#include <FastLED.h>
 #include "efectos.h"
 #include "graphics.h"
 #include "config.h"
@@ -52,11 +54,13 @@ void efecto3() {
   uint8_t val=0;
   int delay_Transition = 0;
   int amplitud_Transition = sp*10;
+  int sentido = 0;
   unsigned long timer_Transition=millis();
   float value_colorTransition = 0;
   float value_brightnessTransition = 0;
-  classTransition color(50,3,true);
+  classTransition color(150,4,true);
   classTransition brightness(500,0,true);
+  classTransition flow(100,5,true);
   //cleans the canvas
   borrar();
   
@@ -93,12 +97,17 @@ void efecto3() {
   
   value_brightnessTransition = brightness.methodValue();
   newBr = int(BRIGHTNESS*value_brightnessTransition);
+   
+  //---------------------------------------------------------------------------------------------------------
+  //sentido transition code
+  //---------------------------------------------------------------------------------------------------------
   
+  sentido = 100*flow.methodValue();
 
   if (millis()-timer_Transition > delay_Transition) { 
     for (int n=0; n<400; n++) {
     uint8_t hueLienzo = lienzoHSV2[n][0];
-    if (false)
+    if (sentido<70)
     {
       hueLienzo++;
       if(hueLienzo >= hueMax)
@@ -106,7 +115,7 @@ void efecto3() {
         hueLienzo = hueMin;
       }
     }
-    if (true)
+    else
     {
       hueLienzo--;
       if(hueLienzo <= hueMin)
@@ -115,7 +124,6 @@ void efecto3() {
       }
     }
     
-    
     lienzoHSV2[n][0] = hueLienzo;
     }
     timer_Transition=millis();
@@ -123,4 +131,5 @@ void efecto3() {
   serialCheck();
   }
 }
+
 

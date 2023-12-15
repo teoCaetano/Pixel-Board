@@ -10,6 +10,10 @@ class classTransition
     int speed;
     int type; 
     bool absolut;
+
+    const int MIN = 0;
+    const int MAX = 1;
+
 public:
     classTransition(int sp, int ty, bool ab );
     float methodValue();
@@ -32,6 +36,7 @@ float classTransition::methodClock()
     }
     return count;
 }
+
 
 float classTransition::methodValue(){
     countValue=methodClock();
@@ -77,4 +82,3 @@ float classTransition::methodValue(){
   }
   return value;
 }
-
