@@ -1,5 +1,3 @@
-#include <Arduino.h>
-#include <FastLED.h>
 #include "efectos.h"
 #include "graphics.h"
 #include "config.h"

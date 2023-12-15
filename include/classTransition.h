@@ -6,16 +6,17 @@
 class classTransition
 {
     unsigned long timer;
-    double count;
-    double countValue;
-    static double value;
+    float count;
+    float countValue;
+    float value;
     int speed;
     int type; 
     bool absolut;
 public:
     classTransition(int sp, int ty, bool ab );
-    double methodValue();
-    double methodClock();
+    float methodValue();
+private:
+    float methodClock();
 };
 
 #endif

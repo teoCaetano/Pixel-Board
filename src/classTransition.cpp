@@ -4,16 +4,17 @@
 class classTransition
 {
     unsigned long timer;
-    double count;
-    double countValue;
-    double value;
+    float count;
+    float countValue;
+    float value;
     int speed;
     int type; 
     bool absolut;
 public:
     classTransition(int sp, int ty, bool ab );
-    double methodValue();
-    double methodClock();
+    float methodValue();
+private:
+    float methodClock();
 };
 
 classTransition::classTransition(int sp, int ty, bool ab)
@@ -23,7 +24,7 @@ classTransition::classTransition(int sp, int ty, bool ab)
     absolut=ab;
 }
 
-double classTransition::methodClock()
+float classTransition::methodClock()
 {
     if (millis()-timer > speed) { 
     count = count + 0.05;
@@ -32,7 +33,7 @@ double classTransition::methodClock()
     return count;
 }
 
-double classTransition::methodValue(){
+float classTransition::methodValue(){
     countValue=methodClock();
     switch (type)
     {
@@ -76,3 +77,4 @@ double classTransition::methodValue(){
   }
   return value;
 }
+
