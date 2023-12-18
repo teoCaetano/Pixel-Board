@@ -58,17 +58,21 @@ void efecto3() {
   unsigned long timer_Transition=millis();
   float value_colorTransition = 0;
   float value_brightnessTransition = 0;
-  classTransition color(150,4,true);
-  classTransition brightness(500,0,true);
+  classTransition color(100,4,true);
+  classTransition brightness(100,0,true);
   classTransition flow(100,5,true);
-  //cleans the canvas
-  borrar();
   
-
   //initializes the matrix
   for (int n=0; n<400; n++) {
-    lienzoHSV2[n][0]=hueMin;
-    lienzoHSV2[n][1]=lienzoHSV[n][1];
+    lienzoHSV2[n][0]=lienzoHSV[n][0];
+    //lienzoHSV2[n][0]=hueMin;
+    if (lienzoHSV[n][1]>200)
+    {
+      lienzoHSV2[n][1]=250;
+    }
+    else{
+    lienzoHSV2[n][1]=lienzoHSV[n][1]+40;
+    }
     lienzoHSV2[n][2]=lienzoHSV[n][2];
   }
   
@@ -97,7 +101,7 @@ void efecto3() {
   
   value_brightnessTransition = brightness.methodValue();
   newBr = int(BRIGHTNESS*value_brightnessTransition);
-   
+   Serial.println(newBr);
   //---------------------------------------------------------------------------------------------------------
   //sentido transition code
   //---------------------------------------------------------------------------------------------------------

@@ -12,10 +12,6 @@ class classTransition
     int speed;
     int type; 
     bool absolut;
-
-    const int MIN ;
-    const int MAX ;
-
 public:
     classTransition(int sp, int ty, bool ab );
     float methodValue();
