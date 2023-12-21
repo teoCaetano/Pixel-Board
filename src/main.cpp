@@ -1,5 +1,3 @@
-#include <Arduino.h>
-#include <FastLED.h>
 #include "config.h"
 #include "efectos.h"
 #include "graphics.h"
@@ -10,7 +8,7 @@ int efectoIdx=3;
 int efectoIdxLast=0;
 int br=BRIGHTNESS;
 int newBr=br;
-int sp=5;
+int sp=9;
 
 
 
@@ -73,8 +71,6 @@ void setup() {
                     0);  /* Core where the task should run */
   Serial.println ("START!");
 }
-unsigned int hue=0;
-unsigned int baseHue=0;
 
 
 void loop() {
