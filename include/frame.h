@@ -3,8 +3,6 @@
 
 #include "main.h"
 
-int getMaxRadio();
-
 void valueConstructor(int max);
 extern uint8_t lienzoValue[FRAME_BUFFER_SIZE];
 

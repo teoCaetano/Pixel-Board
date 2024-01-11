@@ -29,20 +29,7 @@ uint8_t lienzoHue[FRAME_BUFFER_SIZE];
 uint8_t lienzoSaturacion[FRAME_BUFFER_SIZE];
 uint8_t lienzoValue[FRAME_BUFFER_SIZE];
 
-int getMaxRadio(){
-  int max = 0;
-  for (int i = 0; i < FRAME_BUFFER_SIZE; i++)
-  {
 
-    if (lienzoPoolar[i][0]>max)
-    {
-      max=lienzoPoolar[i][0];
-      Serial.println(lienzoPoolar[i][0]);
-    }
-  }
-
-  return max;
-}
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
 //writes the value array
