@@ -61,7 +61,7 @@ void setup()
   poolarConstructor(0,0);
   matrixConstructor(SERPENTY, START_LOCATION, SYMETRIC, 1, ROUND_MATRIX);
   hueConstructor(hueMin, hueMax);
-  poolarConstructor(4,4);
+  poolarConstructor(0,0);
   int valorMax = algoo.getMaxRadio();
   algoo.fill_pixelsPerRadio();
   saturacionConstructor(valorMax);

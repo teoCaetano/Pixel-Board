@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <FastLED.h>
 #include <vector>
+#include <algorithm>
 
 class classFrame
 {
@@ -10,7 +11,9 @@ private:
     int frameBuffer;
     std::vector<int> XCordenates;
     std::vector<int> YCordinates;
+    //radio
     std::vector<int> radCordenates;
+    //grados
     std::vector<int> gradCordenates;
     std::vector<int> gradMapCordinates;
     std::vector<int> clLienzoHue;
@@ -18,10 +21,11 @@ private:
     std::vector<int> clLienzoValue;
     std::vector<int> pixelsPerRadio;
     void constructorXY();
+    void constructorPolar();
+    void constructorMapDegre();
 
 public:
     classFrame(int heigh, int width);
-    void constructorPolar(int x, int Y);
     // devuelve el mayor radio dentro del mapa
     int getMaxRadio();
     // devuelve el mayor grado dentro de un anillo determinado del mapa
@@ -45,8 +49,10 @@ classFrame::classFrame(int heigh, int width)
     YCordinates.resize(frameBuffer, 0);
     radCordenates.resize(frameBuffer, 0);
     gradCordenates.resize(frameBuffer, 0);
+    gradMapCordinates.resize(frameBuffer, 0);
     constructorXY();
-    constructorPolar(0, 0);
+    constructorPolar();
+    constructorMapDegre();
 }
 
 void classFrame::constructorXY()
@@ -86,7 +92,7 @@ void classFrame::constructorXY()
     if (restoHeight == true)
     {
         int index = 0;
-        for (int Y = -(height_cl / 2); Y < (height_cl / 2) + 1; Y++)
+        for (int Y = (height_cl / 2); Y >= -(height_cl / 2); Y--)
         {
             for (int X = 0; X < width_cl; X++)
             {
@@ -134,9 +140,21 @@ void classFrame::constructorXY()
         {
             for (int w = 0; w < width_cl; w++)
             {
-                Serial.print("   ");
+                if (XCordenates[suma]<0)
+                {
+                    Serial.print("  ");
+                }
+                else{
+                    Serial.print("   ");
+                }
                 Serial.print(XCordenates[suma]);
-                Serial.print("   ");
+                if (YCordinates[suma]<0)
+                {
+                    Serial.print("  ");
+                }
+                else{
+                    Serial.print("   ");
+                }
                 Serial.print(YCordinates[suma]);
                 delay(100);
                 suma = suma + 1;
@@ -147,7 +165,7 @@ void classFrame::constructorXY()
     }
 }
 
-void classFrame::constructorPolar(int X, int Y)
+void classFrame::constructorPolar()
 {
     double valor_X = 0;
     double valor_Y = 0;
@@ -160,26 +178,6 @@ void classFrame::constructorPolar(int X, int Y)
         valor_X = XCordenates[index];
         valor_Y = YCordinates[index];
 
-        if (valor_X < 0)
-        {
-            valor_X = valor_X + 0.5f;
-        }
-        if (valor_X > 0)
-        {
-            valor_X = valor_X - 0.5f;
-        }
-        if (valor_Y < 0)
-        {
-            valor_Y = valor_Y + 0.5f;
-        }
-        if (valor_Y > 0)
-        {
-            valor_Y = valor_Y - 0.5f;
-        }
-
-        // translado el punto a donde quiero
-        valor_Y += Y;
-        valor_X += X;
         // calculo la hipotenusa
         radio = (valor_X * valor_X) + (valor_Y * valor_Y);
         radio = sqrt(radio);
@@ -280,9 +278,69 @@ void classFrame::fill_pixelsPerRadio(){
     for (int i = 0; i <= maxRadio; i++)
     {
         pixelsPerRadio[i]=getPixelsPerRadio(i);
-        Serial.print("radio: ");
-        Serial.println(i);
-        Serial.println(pixelsPerRadio[i]);
+    }
+}
+
+void classFrame::constructorMapDegre(){
+    int maxRings = getMaxRadio();
+    int pixels = 0;
+    int index = 0;
+    std::vector<int> gradosRadio;
+    std::vector<int> sortedGradosRadio;
+    std::vector<int> valores;
+    std::vector<int> position;
+    for (int R = 0; R <= maxRings; R++)
+    {
+        index = 0 ;
+        pixels = getPixelsPerRadio(R);
+        
+        gradosRadio.clear();
+
+        for (int i = 0; i < frameBuffer; i++)
+        {
+            if (radCordenates[i]==R)
+            {
+                gradosRadio.push_back(gradCordenates[i]);
+            }
+            
+        }
+        std::sort(gradosRadio.begin(), gradosRadio.end());
+        for (int P = 0; P < pixels; P++)
+        {
+            for (int i = 0; i < frameBuffer; i++)
+            {
+                if (radCordenates[i]==R)
+                {
+                    if (gradCordenates[i]==gradosRadio[index])
+                    {
+                        gradMapCordinates[i]=index;
+                        index++;
+                    }
+                }
+            }
+        }
+    }
+    if (true)
+    {
+        int suma = 0;
+        for (int i = 0; i < height_cl; i++)
+        {
+            for (int w = 0; w < width_cl; w++)
+            {
+                if ((gradMapCordinates[suma]/10)<1)
+                {
+                    Serial.print("   ");
+                }
+                else{
+                    Serial.print("  ");
+                }
+                Serial.print(gradMapCordinates[suma]);
+                delay(100);
+                suma = suma + 1;
+            }
+            Serial.println(" ");
+        }
+        delay(500000);
     }
 }
 
