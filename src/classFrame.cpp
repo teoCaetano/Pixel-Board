@@ -31,7 +31,23 @@ public:
     int getMinDegre(int ring);
     // devuelve la cantidad de pixeles en un radio determinado
     int getPixelsPerRadio(int ring);
-
+    // devuelve la posicion en el vector de determinado punto X Y
+    int getAdressFromXY(int X, int Y);
+    // devuelve la posicion en el vector de determinado punto radio y grado
+    int getAdressFromPolar(int rad, int grad);
+    // devuleve la posicion de el vector de deerminado punto radio y pixelNumRad
+    int getAdressFromMapDegre(int rad, int mapGrad);
+    // devuelve el valor de x de determinada posicion de el vector
+    int getXFromAdress(int adr);
+    // devuelve el valor de y de determinada posicion de el vector
+    int getYFromAdress(int adr);
+    // devuelve el valor de Radio de determinada posicion de el vector   
+    int getRadFromAdress(int adr);
+    // devuelve el valor de Angulo de determinada posicion de el vector
+    int getGradFromAdress(int adr);
+    // devuelve el valor de el numero de pixel de radio de determinada posicion de el vector
+    int getMapGradFromAdress(int adr);
+    // destructor classe
     ~classFrame();
 };
 
@@ -48,6 +64,9 @@ classFrame::classFrame(int heigh, int width)
     constructorXY();
     constructorPolar();
     constructorMapDegre();
+    getAdressFromMapDegre(9,0);
+    getXFromAdress(29);
+    getYFromAdress(29);
 }
 
 void classFrame::constructorXY()
@@ -273,6 +292,7 @@ void classFrame::constructorMapDegre(){
     int pixels = 0;
     int index = 0;
     std::vector<int> gradosRadio;
+
     for (int R = 0; R <= maxRings; R++)
     {
         index = 0 ;
@@ -326,6 +346,99 @@ void classFrame::constructorMapDegre(){
         }
         delay(500000);
     }
+}
+
+int classFrame::getAdressFromXY(int X, int Y)
+{
+    int valor = 0;
+    for (int i = 0; i < frameBuffer; i++)
+    {
+        if (XCordenates[i] == X)
+        {
+            if (YCordinates[i]==Y)
+            {
+                valor = i;
+            }
+            
+        }
+        
+    }
+    Serial.println(valor);
+    return valor;
+}
+
+int classFrame::getAdressFromPolar(int rad, int grad)
+{
+    int save=0;
+    int valor_min = 10000000;
+    for (int i = 0; i < frameBuffer; i++)
+    {
+        if (radCordenates[i]==rad)
+        {
+            if (abs(gradCordenates[i]-grad)<valor_min)
+            {
+                valor_min = gradCordenates[i]-grad;
+                valor_min = abs(valor_min);
+            }
+            
+        }
+        
+    }
+    for (int i = 0; i < frameBuffer; i++)
+    {
+        if (radCordenates[i]==rad)
+        {
+            if (abs(gradCordenates[i]-grad) == valor_min)
+            {
+                save=i;
+            }
+            
+        }
+        
+    }
+    return save;
+}
+
+int classFrame::getAdressFromMapDegre(int rad, int mapGrad)
+{
+    int save;
+    for (int i = 0; i < frameBuffer; i++)
+    {
+        if (radCordenates[i]==rad)
+        {
+            if (gradMapCordinates[i]==mapGrad)
+            {
+                save=i;
+            }
+            
+        }
+        
+    }   
+    return save;
+}
+
+int classFrame::getXFromAdress(int adr)
+{
+    return XCordenates[adr];
+}
+
+int classFrame::getYFromAdress(int adr)
+{
+    return YCordinates[adr];
+}
+
+int classFrame::getRadFromAdress(int adr)
+{
+    return radCordenates[adr];
+}
+
+int classFrame::getGradFromAdress(int adr)
+{
+    return gradCordenates[adr];
+}
+int classFrame::getMapGradFromAdress(int adr)
+{
+    return gradMapCordinates[adr];
 }
 
 classFrame::~classFrame()

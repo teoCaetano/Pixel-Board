@@ -38,17 +38,45 @@ public:
     @param {int} width ancho matriz
     */
     classFrame(int heigh, int width);
-    // devuelve el mayor radio dentro del mapa
+    // @brief devuelve el mayor radio dentro del mapa
     int getMaxRadio();
-    // devuelve el mayor grado dentro de un anillo determinado del mapa
+    // @brief devuelve el mayor grado dentro de un anillo determinado del mapa
     // @param {int} ring radio del mapa
     int getMaxDegre(int ring);
-    // devueve el menor grado dentro de un anillo determinado del mapa
+    // @brief devueve el menor grado dentro de un anillo determinado del mapa
     // @param {int} ring radio del mapa
     int getMinDegre(int ring);
-    // devuelve la cantidad de pixeles en un radio determinado
+    // @brief devuelve la cantidad de pixeles en un radio determinado
     // @param {int} ring radio del mapa
     int getPixelsPerRadio(int ring);
+    // @brief devuelve la posicio en el vector de determinado punto X Y
+    // @param {int} X 
+    // @param {int} Y
+    int getAdressFromXY(int X, int Y);
+    // @brief devuelve la posicion en el vector de determinado punto radio y grado
+    // @param {int} rad - radio del punto
+    // @param {int} grad - grado del punto
+    int getAdressFromPolar(int rad, int grad);
+    // @brief devuleve la posicion de el vector de deerminado punto radio y pixelNumRad
+    // @param {int} rad - radio del punto
+    // @param {int} mapGrad - numero del pixel de determinado radio
+    int getAdressFromMapDegre(int rad, int mapGrad);
+    // @brief devuelve el valor de X de determinada posicion de el vector
+    // @param  {int} adr la posicion del vector
+    int getXFromAdress(int adr);
+    // @brief devuelve el valor de Y de determinada posicion de el vector
+    // @param  {int} adr la posicion del vector
+    int getYFromAdress(int adr);
+    // @brief devuelve el valor de Radio de determinada posicion de el vector 
+    // @param  {int} adr la posicion del vector  
+    int getRadFromAdress(int adr);
+    // @brief devuelve el valor de Angulo de determinada posicion de el vector
+    // @param  {int} adr la posicion del vector
+    int getGradFromAdress(int adr);
+    // @brief devuelve el valor de el numero de pixel de radio de determinada posicion de el vector
+    // @param  {int} adr la posicion del vector
+    int getMapGradFromAdress(int adr);
+    // @brief destructor classe
     ~classFrame();
 };
 

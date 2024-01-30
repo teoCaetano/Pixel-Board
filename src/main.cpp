@@ -61,8 +61,9 @@ void setup()
   poolarConstructor(0,0);
   matrixConstructor(SERPENTY, START_LOCATION, SYMETRIC, 1, ROUND_MATRIX);
   hueConstructor(hueMin, hueMax);
-  saturacionConstructor(9);
-  valueConstructor(9);
+  int valorMax = algoo.getMaxRadio();
+  saturacionConstructor(valorMax);
+  valueConstructor(valorMax);
   FastLED.setBrightness(br);
   FastLED.clear();
   FastLED.show(); // display this frame
