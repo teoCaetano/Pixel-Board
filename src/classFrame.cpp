@@ -16,9 +16,6 @@ private:
     //grados
     std::vector<int> gradCordenates;
     std::vector<int> gradMapCordinates;
-    std::vector<int> clLienzoHue;
-    std::vector<int> clLienzoSaturacion;
-    std::vector<int> clLienzoValue;
     std::vector<int> pixelsPerRadio;
     void constructorXY();
     void constructorPolar();
@@ -34,8 +31,7 @@ public:
     int getMinDegre(int ring);
     // devuelve la cantidad de pixeles en un radio determinado
     int getPixelsPerRadio(int ring);
-    //guarda los valores de pixel por radio en un array
-    void fill_pixelsPerRadio();
+
     ~classFrame();
 };
 
@@ -44,7 +40,6 @@ classFrame::classFrame(int heigh, int width)
     height_cl = heigh;
     width_cl = width;
     frameBuffer = width_cl * height_cl;
-    clLienzoHue.resize(frameBuffer, 0);
     XCordenates.resize(frameBuffer, 0);
     YCordinates.resize(frameBuffer, 0);
     radCordenates.resize(frameBuffer, 0);
@@ -272,23 +267,12 @@ int classFrame::getPixelsPerRadio(int ring)
     return suma;
 }
 
-void classFrame::fill_pixelsPerRadio(){
-    int maxRadio = getMaxRadio();
-    pixelsPerRadio.resize(maxRadio+1, 0);
-    for (int i = 0; i <= maxRadio; i++)
-    {
-        pixelsPerRadio[i]=getPixelsPerRadio(i);
-    }
-}
 
 void classFrame::constructorMapDegre(){
     int maxRings = getMaxRadio();
     int pixels = 0;
     int index = 0;
     std::vector<int> gradosRadio;
-    std::vector<int> sortedGradosRadio;
-    std::vector<int> valores;
-    std::vector<int> position;
     for (int R = 0; R <= maxRings; R++)
     {
         index = 0 ;
@@ -320,7 +304,7 @@ void classFrame::constructorMapDegre(){
             }
         }
     }
-    if (true)
+    if (false)
     {
         int suma = 0;
         for (int i = 0; i < height_cl; i++)

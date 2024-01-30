@@ -17,9 +17,6 @@ private:
     //grados
     std::vector<int> gradCordenates;
     std::vector<int> gradMapCordinates;
-    std::vector<int> clLienzoHue;
-    std::vector<int> clLienzoSaturacion;
-    std::vector<int> clLienzoValue;
     std::vector<int> pixelsPerRadio;
     /*
     @brief crea el mapa con los valores XY de los pixeles de la matriz, en matrices impares existe la posicion 0 en matrices pares no
@@ -52,8 +49,6 @@ public:
     // devuelve la cantidad de pixeles en un radio determinado
     // @param {int} ring radio del mapa
     int getPixelsPerRadio(int ring);
-    //guarda los valores de pixel por radio en un array
-    void fill_pixelsPerRadio();
     ~classFrame();
 };
 
