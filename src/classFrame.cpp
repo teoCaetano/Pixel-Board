@@ -62,11 +62,8 @@ classFrame::classFrame(int heigh, int width)
     gradCordenates.resize(frameBuffer, 0);
     gradMapCordinates.resize(frameBuffer, 0);
     constructorXY();
-    constructorPolar();
-    constructorMapDegre();
-    getAdressFromMapDegre(9,0);
-    getXFromAdress(29);
-    getYFromAdress(29);
+    //constructorPolar();
+    //constructorMapDegre();
 }
 
 void classFrame::constructorXY()
@@ -118,34 +115,45 @@ void classFrame::constructorXY()
     if (restoWidth == false)
     {
         int index = 0;
+        int valueX = -(width_cl / 2);
         for (int Y = 0; Y < height_cl; Y++)
         {
-            for (int X = -(width_cl / 2); X <= (width_cl / 2); X++)
+            for (int X = 0; X < width_cl; X++)
             {
-                if (X == 0)
+                if (valueX == 0)
                 {
-                    X = 1;
+                    valueX++;
                 }
-                XCordenates[index] = X;
+                if (index<frameBuffer)
+                {
+                    XCordenates[index] = valueX;
+                }
+                valueX++;
                 index = index + 1;
             }
+            valueX = -(width_cl / 2);
         }
     }
     if (restoHeight == false)
     {
         int index = 0;
-        for (int Y = (height_cl / 2); Y >= -(height_cl / 2); Y--)
+        int valueY = (height_cl / 2);
+        for (int Y = 0; Y < height_cl; Y++)
         {
             for (int X = 0; X < width_cl; X++)
             {
-                int valueY = Y;
-                if (valueY <= 0)
+                if (valueY == 0)
                 {
-                    valueY = valueY - 1;
+                    valueY--;
                 }
-                YCordinates[index] = valueY;
+                if (index<frameBuffer)
+                {
+                    YCordinates[index] = valueY;
+                }
+                valueY--;
                 index = index + 1;
             }
+            valueY = (height_cl / 2);
         }
     }
     if (false)

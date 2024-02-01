@@ -60,16 +60,14 @@ void setup()
   cartesianConstructor();
   poolarConstructor(0,0);
   matrixConstructor(SERPENTY, START_LOCATION, SYMETRIC, 1, ROUND_MATRIX);
-  hueConstructor(hueMin, hueMax);
-  int valorMax = algoo.getMaxRadio();
-  saturacionConstructor(valorMax);
-  valueConstructor(valorMax);
+  hueConstructor(hueMin, hueMax); 
+  saturacionConstructor(10);
+  valueConstructor(10);
   FastLED.setBrightness(br);
   FastLED.clear();
   FastLED.show(); // display this frame
   delay(200);
   clearFrameBuffer();
-
   xTaskCreatePinnedToCore(
       updateLedsTask,   /* Function to implement the task */
       "updateLedsTask", /* Name of the task */

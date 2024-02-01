@@ -39,16 +39,16 @@
 
 #define COLOR_ORDER GRB
 #define CHIPSET     WS2812
-#define NUM_LEDS    225
 /*
 * @brief max Brigthness of the system
  If you have twinkle in the leds, maybe you have to increase the BRIGTHNESS variable
 */
 #define BRIGHTNESS  90
 
-#define HEIGHT 15 // Y axis
-#define WIDTH 15 // X axis 
+#define HEIGHT 20 // Y axis
+#define WIDTH 20 // X axis 
 #define FRAME_BUFFER_SIZE HEIGHT*WIDTH
+#define NUM_LEDS    FRAME_BUFFER_SIZE
 
 #define hueMin 0
 #define hueMax 255
