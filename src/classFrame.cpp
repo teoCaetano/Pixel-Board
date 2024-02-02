@@ -8,21 +8,26 @@ class classFrame
 private:
     int height_cl;
     int width_cl;
-    int frameBuffer;
+    int frameBufferSize;
     std::vector<int> XCordenates;
     std::vector<int> YCordinates;
-    //radio
+    // radio
     std::vector<int> radCordenates;
-    //grados
+    // grados
     std::vector<int> gradCordenates;
     std::vector<int> gradMapCordinates;
     std::vector<int> pixelsPerRadio;
+    // matrix
+    std::vector<int> ledsPerPixel;
+    std::vector<int> pixelLedMap;
     void constructorXY();
     void constructorPolar();
     void constructorMapDegre();
 
 public:
     classFrame(int heigh, int width);
+    //construye el array de valores para poder mostrar la imagen en la matriz
+    void matrixConstructor(bool serpenty, bool start, bool simetria, int lesdPPixel, bool round);
     // devuelve el mayor radio dentro del mapa
     int getMaxRadio();
     // devuelve el mayor grado dentro de un anillo determinado del mapa
@@ -41,7 +46,7 @@ public:
     int getXFromAdress(int adr);
     // devuelve el valor de y de determinada posicion de el vector
     int getYFromAdress(int adr);
-    // devuelve el valor de Radio de determinada posicion de el vector   
+    // devuelve el valor de Radio de determinada posicion de el vector
     int getRadFromAdress(int adr);
     // devuelve el valor de Angulo de determinada posicion de el vector
     int getGradFromAdress(int adr);
@@ -55,15 +60,17 @@ classFrame::classFrame(int heigh, int width)
 {
     height_cl = heigh;
     width_cl = width;
-    frameBuffer = width_cl * height_cl;
-    XCordenates.resize(frameBuffer, 0);
-    YCordinates.resize(frameBuffer, 0);
-    radCordenates.resize(frameBuffer, 0);
-    gradCordenates.resize(frameBuffer, 0);
-    gradMapCordinates.resize(frameBuffer, 0);
+    frameBufferSize = width_cl * height_cl;
+    XCordenates.resize(frameBufferSize, 0);
+    YCordinates.resize(frameBufferSize, 0);
+    radCordenates.resize(frameBufferSize, 0);
+    gradCordenates.resize(frameBufferSize, 0);
+    gradMapCordinates.resize(frameBufferSize, 0);
+    pixelsPerRadio.resize(frameBufferSize,0);
+    pixelLedMap.resize(frameBufferSize,0);
     constructorXY();
-    //constructorPolar();
-    //constructorMapDegre();
+    constructorPolar();
+    constructorMapDegre();
 }
 
 void classFrame::constructorXY()
@@ -124,7 +131,7 @@ void classFrame::constructorXY()
                 {
                     valueX++;
                 }
-                if (index<frameBuffer)
+                if (index < frameBufferSize)
                 {
                     XCordenates[index] = valueX;
                 }
@@ -146,7 +153,7 @@ void classFrame::constructorXY()
                 {
                     valueY--;
                 }
-                if (index<frameBuffer)
+                if (index < frameBufferSize)
                 {
                     YCordinates[index] = valueY;
                 }
@@ -162,19 +169,21 @@ void classFrame::constructorXY()
         {
             for (int w = 0; w < width_cl; w++)
             {
-                if (XCordenates[suma]<0)
+                if (XCordenates[suma] < 0)
                 {
                     Serial.print("  ");
                 }
-                else{
+                else
+                {
                     Serial.print("   ");
                 }
                 Serial.print(XCordenates[suma]);
-                if (YCordinates[suma]<0)
+                if (YCordinates[suma] < 0)
                 {
                     Serial.print("  ");
                 }
-                else{
+                else
+                {
                     Serial.print("   ");
                 }
                 Serial.print(YCordinates[suma]);
@@ -195,7 +204,7 @@ void classFrame::constructorPolar()
     double angulo = 0;
     int suma = 0;
     Serial.println("                                     ");
-    for (int index = 0; index < frameBuffer; index++)
+    for (int index = 0; index < frameBufferSize; index++)
     {
         valor_X = XCordenates[index];
         valor_Y = YCordinates[index];
@@ -238,7 +247,7 @@ void classFrame::constructorPolar()
 int classFrame::getMaxRadio()
 {
     int max = radCordenates[0];
-    for (int i = 0; i < frameBuffer; i++)
+    for (int i = 0; i < frameBufferSize; i++)
     {
         if (radCordenates[i] > max)
         {
@@ -251,7 +260,7 @@ int classFrame::getMaxRadio()
 int classFrame::getMaxDegre(int ring)
 {
     int max = 0;
-    for (int i = 0; i < frameBuffer; i++)
+    for (int i = 0; i < frameBufferSize; i++)
     {
         if (radCordenates[i] == ring)
         {
@@ -267,7 +276,7 @@ int classFrame::getMaxDegre(int ring)
 int classFrame::getMinDegre(int ring)
 {
     int min = 360;
-    for (int i = 0; i < frameBuffer; i++)
+    for (int i = 0; i < frameBufferSize; i++)
     {
         if (radCordenates[i] == ring)
         {
@@ -284,7 +293,7 @@ int classFrame::getPixelsPerRadio(int ring)
 {
     int suma = 0;
 
-    for (int X = 0; X < frameBuffer; X++)
+    for (int X = 0; X < frameBufferSize; X++)
     {
         if (radCordenates[X] == ring)
         {
@@ -294,8 +303,8 @@ int classFrame::getPixelsPerRadio(int ring)
     return suma;
 }
 
-
-void classFrame::constructorMapDegre(){
+void classFrame::constructorMapDegre()
+{
     int maxRings = getMaxRadio();
     int pixels = 0;
     int index = 0;
@@ -303,29 +312,28 @@ void classFrame::constructorMapDegre(){
 
     for (int R = 0; R <= maxRings; R++)
     {
-        index = 0 ;
+        index = 0;
         pixels = getPixelsPerRadio(R);
-        
+
         gradosRadio.clear();
 
-        for (int i = 0; i < frameBuffer; i++)
+        for (int i = 0; i < frameBufferSize; i++)
         {
-            if (radCordenates[i]==R)
+            if (radCordenates[i] == R)
             {
                 gradosRadio.push_back(gradCordenates[i]);
             }
-            
         }
         std::sort(gradosRadio.begin(), gradosRadio.end());
         for (int P = 0; P < pixels; P++)
         {
-            for (int i = 0; i < frameBuffer; i++)
+            for (int i = 0; i < frameBufferSize; i++)
             {
-                if (radCordenates[i]==R)
+                if (radCordenates[i] == R)
                 {
-                    if (gradCordenates[i]==gradosRadio[index])
+                    if (gradCordenates[i] == gradosRadio[index])
                     {
-                        gradMapCordinates[i]=index;
+                        gradMapCordinates[i] = index;
                         index++;
                     }
                 }
@@ -339,11 +347,12 @@ void classFrame::constructorMapDegre(){
         {
             for (int w = 0; w < width_cl; w++)
             {
-                if ((gradMapCordinates[suma]/10)<1)
+                if ((gradMapCordinates[suma] / 10) < 1)
                 {
                     Serial.print("   ");
                 }
-                else{
+                else
+                {
                     Serial.print("  ");
                 }
                 Serial.print(gradMapCordinates[suma]);
@@ -359,17 +368,15 @@ void classFrame::constructorMapDegre(){
 int classFrame::getAdressFromXY(int X, int Y)
 {
     int valor = 0;
-    for (int i = 0; i < frameBuffer; i++)
+    for (int i = 0; i < frameBufferSize; i++)
     {
         if (XCordenates[i] == X)
         {
-            if (YCordinates[i]==Y)
+            if (YCordinates[i] == Y)
             {
                 valor = i;
             }
-            
         }
-        
     }
     Serial.println(valor);
     return valor;
@@ -377,32 +384,28 @@ int classFrame::getAdressFromXY(int X, int Y)
 
 int classFrame::getAdressFromPolar(int rad, int grad)
 {
-    int save=0;
+    int save = 0;
     int valor_min = 10000000;
-    for (int i = 0; i < frameBuffer; i++)
+    for (int i = 0; i < frameBufferSize; i++)
     {
-        if (radCordenates[i]==rad)
+        if (radCordenates[i] == rad)
         {
-            if (abs(gradCordenates[i]-grad)<valor_min)
+            if (abs(gradCordenates[i] - grad) < valor_min)
             {
-                valor_min = gradCordenates[i]-grad;
+                valor_min = gradCordenates[i] - grad;
                 valor_min = abs(valor_min);
             }
-            
         }
-        
     }
-    for (int i = 0; i < frameBuffer; i++)
+    for (int i = 0; i < frameBufferSize; i++)
     {
-        if (radCordenates[i]==rad)
+        if (radCordenates[i] == rad)
         {
-            if (abs(gradCordenates[i]-grad) == valor_min)
+            if (abs(gradCordenates[i] - grad) == valor_min)
             {
-                save=i;
+                save = i;
             }
-            
         }
-        
     }
     return save;
 }
@@ -410,18 +413,16 @@ int classFrame::getAdressFromPolar(int rad, int grad)
 int classFrame::getAdressFromMapDegre(int rad, int mapGrad)
 {
     int save;
-    for (int i = 0; i < frameBuffer; i++)
+    for (int i = 0; i < frameBufferSize; i++)
     {
-        if (radCordenates[i]==rad)
+        if (radCordenates[i] == rad)
         {
-            if (gradMapCordinates[i]==mapGrad)
+            if (gradMapCordinates[i] == mapGrad)
             {
-                save=i;
+                save = i;
             }
-            
         }
-        
-    }   
+    }
     return save;
 }
 
@@ -447,6 +448,243 @@ int classFrame::getGradFromAdress(int adr)
 int classFrame::getMapGradFromAdress(int adr)
 {
     return gradMapCordinates[adr];
+}
+
+void classFrame::matrixConstructor(bool serpenty, bool start, bool simetria, int lesdPPixel, bool round)
+{
+    int radioMaximo = 0;
+    int suma = 0;
+
+    //es un contador que sirve para desplazarce por el array
+    int pixelsPerRow_suma = 0;
+    //almacena el valor de pixeles por fila para guardarlo se resetea a 0 por cada fila
+    int pixelsPerRow_value = 0;
+    std::vector<int> pixelsPerRow;
+    pixelsPerRow.resize(height_cl, 0);
+
+
+    int maxLedsPerRow_resultado = 0;
+    //va guardando el pixel con maxima denominacion de cada fila
+    int maxLedsPerRow_suma = 0;
+    std::vector<int> maxLedsPerRow;
+    maxLedsPerRow.resize(height_cl, 0);
+
+    /*
+      sirve para calcular el radio maximo para el cual quiero calcular los leds
+      en caso de round=true utilizo el ancho(WIDHT) para sacar el radio de la circunferencia
+      en caso de round=false utilizao el valor del radio poolar del primer pixel del array
+    */
+
+    if (round == true)
+    {
+        radioMaximo = (width_cl / 2);
+    }
+    else
+    {
+        radioMaximo = getMaxRadio();
+    }
+
+    /*
+      utilizo este for para almacenar los valores de la cantidad de pixeles por fila
+    */
+    // me desplazo por las filas
+    for (int Y = 0; Y < height_cl; Y++)
+    {
+        pixelsPerRow_value = 0;
+        for (int X = 0; X < width_cl; X++)
+        {
+            if (radCordenates[pixelsPerRow_suma] <= radioMaximo)
+            {
+                pixelsPerRow_value = pixelsPerRow_value + 1;
+            }
+            pixelsPerRow_suma = pixelsPerRow_suma + 1;
+        }
+        pixelsPerRow[Y] = pixelsPerRow_value;
+        if (false)
+        {
+            Serial.println("test pixels per row");
+            Serial.println(pixelsPerRow[Y]);
+            delay(1000);
+        }
+    }
+
+    /*
+      utilizo este for para sacar el led con mayor denominacio de cada fila
+    */
+
+    for (int i = 0; i < height_cl; i++)
+    {
+        //aumento maxledsperrow la cantida de pixeles en la fila i
+        maxLedsPerRow_suma += pixelsPerRow[i];
+        //para sacar el led cuya posicion es el valor de maximo en esa fila
+        //corrijo por -1 porque el array de leds comienza en 0, y multiplico por la cantidad de leds
+        maxLedsPerRow_resultado = (maxLedsPerRow_suma - 1) * lesdPPixel;
+        //almaceno
+        maxLedsPerRow[i] = maxLedsPerRow_resultado;
+
+        if (false)
+        {
+            Serial.println("test max leds per row");
+            Serial.println(maxLedsPerRow_resultado);
+            delay(1000);
+        }
+    }
+
+    for (int i = 0; i < frameBufferSize; i++)
+    {
+        if (radCordenates[suma] <= radioMaximo)
+        {
+            ledsPerPixel[i] = lesdPPixel;
+        }
+        else
+        {
+            ledsPerPixel[i] = 0;
+        }
+    }
+
+    if (false)
+    {
+        int suma = 0;
+        for (int i = 0; i < height_cl; i++)
+        {
+            for (int w = 0; w < width_cl; w++)
+            {
+                Serial.print("   ");
+                Serial.print(ledsPerPixel[suma]);
+                delay(100);
+                suma = suma + 1;
+            }
+            Serial.println(" ");
+        }
+        delay(500000);
+    }
+
+    if ((serpenty == false) && (start == false)) // no serpenty empieza por la izquierda
+    {
+        int suma = 0;
+        int valorLed = 0;
+        for (int Y = 0; Y < height_cl; Y++)
+        {
+            valorLed = maxLedsPerRow[Y];
+            for (int X = 0; X < width_cl; X++)
+            {
+                if (radCordenates[suma] <= radioMaximo)
+                {
+                    pixelLedMap[suma] = valorLed;
+                    valorLed -= lesdPPixel;
+                }
+                suma += 1;
+            }
+        }
+    }
+    if ((serpenty == false) && (start == true)) // no serpenty empieza por la derecha
+    {
+        int suma = 0;
+        int valorLed = 0;
+        for (int Y = 0; Y < height_cl; Y++)
+        {
+            for (int X = 0; X < width_cl; X++)
+            {
+                if (radCordenates[suma] <= radioMaximo)
+                {
+                    pixelLedMap[suma] = valorLed;
+                    valorLed += lesdPPixel;
+                }
+                suma += 1;
+            }
+        }
+    }
+    if ((serpenty == true) && (start == false)) // serpenty empieza por la izquierda
+    {
+        int suma = 0;
+        int valorLed = 0;
+        int par_impar = 0;
+        for (int Y = 0; Y < height_cl; Y++)
+        {
+            par_impar++;
+            if (par_impar % 2 == 1)
+            {
+                valorLed = maxLedsPerRow[Y];
+                for (int X = 0; X < width_cl; X++)
+                {
+                    if (radCordenates[suma] <= radioMaximo)
+                    {
+                        pixelLedMap[suma] = valorLed;
+                        valorLed -= lesdPPixel;
+                    }
+                    suma += 1;
+                }
+            }
+            if (par_impar % 2 == 0)
+            {
+                valorLed = maxLedsPerRow[Y];
+                valorLed = valorLed - (pixelsPerRow[Y] * lesdPPixel) + lesdPPixel;
+                for (int X = 0; X < width_cl; X++)
+                {
+                    if (radCordenates[suma] <= radioMaximo)
+                    {
+                        pixelLedMap[suma] = valorLed;
+                        valorLed += lesdPPixel;
+                    }
+                    suma += 1;
+                }
+            }
+        }
+    }
+    if ((serpenty == true) && (start == true)) // serpenty empieza por la derecha
+    {
+        int suma = 0;
+        int valorLed = 0;
+        int par_impar = 0;
+        for (int Y = 0; Y < height_cl; Y++)
+        {
+            //contador 
+            par_impar++;
+            if (par_impar % 2 == 0)
+            {
+                valorLed = maxLedsPerRow[Y];
+                for (int X = 0; X < width_cl; X++)
+                {
+                    if (radCordenates[suma] <= radioMaximo)
+                    {
+                        pixelLedMap[suma] = valorLed;
+                        valorLed -= lesdPPixel;
+                    }
+                    suma += 1;
+                }
+            }
+            if (par_impar % 2 == 1)
+            {
+                valorLed = maxLedsPerRow[Y];
+                valorLed = valorLed - (pixelsPerRow[Y] * lesdPPixel) + lesdPPixel;
+                for (int X = 0; X < width_cl; X++)
+                {
+                    if (radCordenates[suma] <= radioMaximo)
+                    {
+                        pixelLedMap[suma] = valorLed;
+                        valorLed += lesdPPixel;
+                    }
+                    suma += 1;
+                }
+            }
+        }
+    }
+    if (true)
+    {
+        suma = 0;
+        for (int i = 0; i < height_cl; i++)
+        {
+            for (int w = 0; w < width_cl; w++)
+            {
+                Serial.print("   ");
+                Serial.print(pixelLedMap[suma]);
+                delay(100);
+                suma = suma + 1;
+            }
+            Serial.println(" ");
+        }
+        delay(500000);
+    }
 }
 
 classFrame::~classFrame()

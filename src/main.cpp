@@ -56,6 +56,7 @@ void setup()
 {
   Serial.begin(115200);
   classFrame algoo(HEIGHT,WIDTH);
+  //algoo.matrixConstructor(SERPENTY, START_LOCATION, SYMETRIC, 1, ROUND_MATRIX);
   FastLED.addLeds<CHIPSET, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS);
   cartesianConstructor();
   poolarConstructor(0,0);
