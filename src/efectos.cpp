@@ -4,8 +4,11 @@
 #include "graphics.h"
 #include "config.h"
 #include "main.h"
-#include "frame.h"
 #include "classTransition.h"
+
+ uint8_t lienzoHue[FRAME_BUFFER_SIZE];
+ uint8_t lienzoSaturacion[FRAME_BUFFER_SIZE];
+ uint8_t lienzoValue[FRAME_BUFFER_SIZE];
 
 void updatePixel(int pixel, int hue, int sat, int val)
 {
@@ -21,35 +24,6 @@ void updatePixel(int pixel, int hue, int sat, int val)
   }
 }
 
-void colorPleno(uint8_t hue, uint8_t sat, uint8_t val)
-{
-  for (int y = 0; y < HEIGHT; y++)
-  {
-    for (int x = 0; x < WIDTH; x++)
-    {
-      int l = getBufferIndex(x, y);
-      updatePixel(l, hue, sat, val);
-    }
-  }
-}
-
-void borrar()
-{
-  uint8_t hue = 200;
-  uint8_t sat = 200;
-  uint8_t val = 200;
-  for (int y = 0; y < HEIGHT; y++)
-  {
-    for (int x = 0; x < WIDTH; x++)
-    {
-      int l = getBufferIndex(x, y);
-      hue = getLienzoH(x, y);
-      sat = getLienzoS(x, y);
-      val = getLienzoV(x, y) / 2;
-      updatePixel(l, hue, sat, val);
-    }
-  }
-}
 
 // LIENZO ROTAR
 void efecto3()

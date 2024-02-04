@@ -24,7 +24,7 @@
 /*
     @brief keep at 1 if if your pixels are 1 led, and 2 if the pixels are 2, and so on forth
 */
-#define LEDS_PER_PIXEL 1
+#define LEDS_PER_PIXEL 3
 /*
     @brief false if your matrix is custom
 */
@@ -32,7 +32,7 @@
 /*
     @brief true if your matrix is circle shaped
 */
-#define ROUND_MATRIX false
+#define ROUND_MATRIX true
 
 
 #define LED_PIN     23
@@ -48,7 +48,7 @@
 #define HEIGHT 20 // Y axis
 #define WIDTH 20 // X axis 
 #define FRAME_BUFFER_SIZE HEIGHT*WIDTH
-#define NUM_LEDS    FRAME_BUFFER_SIZE
+#define NUM_LEDS    FRAME_BUFFER_SIZE*3
 
 #define hueMin 0
 #define hueMax 255

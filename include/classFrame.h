@@ -10,6 +10,7 @@ private:
     int height_cl;
     int width_cl;
     int frameBufferSize;
+    // cartesiano
     std::vector<int> XCordenates;
     std::vector<int> YCordinates;
     // radio
@@ -21,6 +22,10 @@ private:
     // matrix
     std::vector<int> ledsPerPixel;
     std::vector<int> pixelLedMap;
+    // HSV
+    std::vector<uint8_t> hueBuffer;
+    std::vector<uint8_t> valueBuffer;
+    std::vector<uint8_t> saturationBuffer;
     /*
     @brief crea el mapa con los valores XY de los pixeles de la matriz, en matrices impares existe la posicion 0 en matrices pares no
     */
@@ -42,6 +47,12 @@ public:
     @param {int} width ancho matriz
     */
     classFrame(int heigh, int width);
+    //-------------------------------------------------------------------------------------------
+    // write methods
+    //-------------------------------------------------------------------------------------------
+    void writeLedsPerPixelsTo(int lesdspixels[]);
+    void writepixelLedMapTo(int ledsMap[]);
+
     /*
         @brief meant to be run at void setup makes the array whit the positions of the leds for you to work whit
         or in case you have a custom matrix just uses the arrays you define in frame.c

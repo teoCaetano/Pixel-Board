@@ -25,21 +25,28 @@
 #include "graphics.h"
 #include "config.h"
 #include "pixeltypes.h"
-#include "classTransition.h"
-#include "frame.h"
+
+#define ROJO 0
+#define NARANJA 32
+#define AMARILLO 64
+#define VERDE 96
+#define AQUA 128
+#define AZUL 160
+#define PURPURA 192
+#define ROSA 224
 
 
 extern int br;
 extern int newBr;
 extern int sp;
 
-int bufferToPixeledBase(int x, int y);
-int getLienzoH(int x, int y);
-int getLienzoS(int x, int y);
-int getLienzoV(int x, int y);
-int getLienzoH2(int x, int y);
-int getLienzoS2(int x, int y);
-int getLienzoV2(int x, int y);
+extern int frame2PixelLedMap[FRAME_BUFFER_SIZE];
+extern int ledsPerPixel_prueba[FRAME_BUFFER_SIZE];
+extern uint8_t lienzoHue[FRAME_BUFFER_SIZE];
+extern uint8_t lienzoSaturacion[FRAME_BUFFER_SIZE];
+extern uint8_t lienzoValue[FRAME_BUFFER_SIZE];
+
+
 void serialCheck(); 
 void subirSpeed();
 void bajarSpeed();

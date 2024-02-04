@@ -2,7 +2,6 @@
 #include "graphics.h"
 #include "config.h"
 #include "main.h"
-#include "frame.h"
 
 CHSVPalette16 prueba1(
     CHSV(0, 230, 250),
@@ -41,11 +40,6 @@ CHSVPalette16 prueba3(
     CHSV(255, 230, 250));
 
 CHSV prueba2;
-
-int getBufferIndex(int x, int y)
-{
-  return (y * WIDTH + x);
-}
 
 void clearFrameBuffer()
 {
@@ -99,64 +93,9 @@ void updateLeds()
       uint8_t h = frameBuffer[n][0];
       uint8_t s = frameBuffer[n][1];
       uint8_t v = frameBuffer[n][2];
-      if (true)
+      for (int i = 0; i < ledsPerPixel; i++)
       {
-        if (ledsPerPixel == 1)
-        {
-          leds[pixelLed] = CHSV(h, s, v);
-        }
-        if (ledsPerPixel == 2)
-        {
-          leds[pixelLed] = CHSV(h, s, v);
-          leds[pixelLed + 1] = CHSV(h, s, v);
-        }
-        if (ledsPerPixel == 3)
-        {
-          leds[pixelLed] = CHSV(h, s, v);
-          leds[pixelLed + 1] = CHSV(h, s, v);
-          leds[pixelLed + 2] = CHSV(h, s, v);
-        }
-      }
-      else
-      {
-        if (false)
-        {
-          prueba2 = ColorFromPalette(prueba1, h, 250, LINEARBLEND);
-          if (ledsPerPixel == 1)
-          {
-            leds[pixelLed] = CHSV(prueba2.hue, s, v);
-          }
-          if (ledsPerPixel == 2)
-          {
-            leds[pixelLed] = CHSV(prueba2.hue, s, v);
-            leds[pixelLed + 1] = CHSV(prueba2.hue, s, v);
-          }
-          if (ledsPerPixel == 3)
-          {
-            leds[pixelLed] = CHSV(prueba2.hue, s, v);
-            leds[pixelLed + 1] = CHSV(prueba2.hue, s, v);
-            leds[pixelLed + 2] = CHSV(prueba2.hue, s, v);
-          }
-        }
-        else
-        {
-          prueba2 = ColorFromPalette(prueba1, h, 250, LINEARBLEND);
-          if (ledsPerPixel == 1)
-          {
-            leds[pixelLed] = prueba2;
-          }
-          if (ledsPerPixel == 2)
-          {
-            leds[pixelLed] = prueba2;
-            leds[pixelLed + 1] = prueba2;
-          }
-          if (ledsPerPixel == 3)
-          {
-            leds[pixelLed] = prueba2;
-            leds[pixelLed + 1] = prueba2;
-            leds[pixelLed + 2] = prueba2;
-          }
-        }
+        leds[pixelLed+i] = CHSV(h, s, v);
       }
     }
   }

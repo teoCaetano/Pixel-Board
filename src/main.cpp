@@ -4,7 +4,6 @@
 #include "efectos.h"
 #include "graphics.h"
 #include "main.h"
-#include "frame.h"
 #include "classFrame.h"
 
 int br = BRIGHTNESS;
@@ -13,57 +12,20 @@ int sp = 9;
 
 CRGB leds[NUM_LEDS];
 uint8_t frameBuffer[FRAME_BUFFER_SIZE][3];
+int frame2PixelLedMap[FRAME_BUFFER_SIZE];
+int ledsPerPixel_prueba[FRAME_BUFFER_SIZE];
 
-int bufferToPixeledBase(int x, int y)
-{
-  int index = y * WIDTH + x;
-  return frame2PixelLedMap[index];
-}
-
-int getLienzoH(int x, int y)
-{
-  int index = y * WIDTH + x;
-  return lienzoHSV[index][0];
-}
-int getLienzoS(int x, int y)
-{
-  int index = y * WIDTH + x;
-  return lienzoHSV[index][1];
-}
-int getLienzoV(int x, int y)
-{
-  int index = y * WIDTH + x;
-  return lienzoHSV[index][2];
-}
-
-int getLienzoH2(int x, int y)
-{
-  int index = y * WIDTH + x;
-  return lienzoHSV2[index][0];
-}
-int getLienzoS2(int x, int y)
-{
-  int index = y * WIDTH + x;
-  return lienzoHSV2[index][1];
-}
-int getLienzoV2(int x, int y)
-{
-  int index = y * WIDTH + x;
-  return lienzoHSV2[index][2];
-}
 
 void setup()
 {
   Serial.begin(115200);
   classFrame algoo(HEIGHT,WIDTH);
-  //algoo.matrixConstructor(SERPENTY, START_LOCATION, SYMETRIC, 1, ROUND_MATRIX);
+
+  algoo.matrixConstructor(SERPENTY, START_LOCATION, SYMETRIC, 3, ROUND_MATRIX);
+  algoo.writeLedsPerPixelsTo(ledsPerPixel_prueba);
+  algoo.writepixelLedMapTo(frame2PixelLedMap);
+
   FastLED.addLeds<CHIPSET, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS);
-  cartesianConstructor();
-  poolarConstructor(0,0);
-  matrixConstructor(SERPENTY, START_LOCATION, SYMETRIC, 1, ROUND_MATRIX);
-  hueConstructor(hueMin, hueMax); 
-  saturacionConstructor(10);
-  valueConstructor(10);
   FastLED.setBrightness(br);
   FastLED.clear();
   FastLED.show(); // display this frame
