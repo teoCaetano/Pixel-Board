@@ -5,10 +5,8 @@
 #include "config.h"
 #include "main.h"
 #include "classTransition.h"
-
- uint8_t lienzoHue[FRAME_BUFFER_SIZE];
- uint8_t lienzoSaturacion[FRAME_BUFFER_SIZE];
- uint8_t lienzoValue[FRAME_BUFFER_SIZE];
+#include "classArco.h"
+#include "classFrame.h"
 
 void updatePixel(int pixel, int hue, int sat, int val)
 {
@@ -24,76 +22,43 @@ void updatePixel(int pixel, int hue, int sat, int val)
   }
 }
 
-
 // LIENZO ROTAR
 void efecto3()
 {
-
-  // inicialization of variables
-  uint8_t hue = 0;
-  uint8_t sat = 0;
-  uint8_t val = 0;
-  int delay_Transition = 0;
-  int amplitud_Transition = sp * 10;
-  int sentido = 0;
-  unsigned long timer_Transition = millis();
-  float value_colorTransition = 0;
-  float value_brightnessTransition = 0;
-  classTransition color(50, 0, true);
-  classTransition brightness(100, 0, true);
-  classTransition flow(100, 0, true);
-
+  classArco arco1(algoo);
+  unsigned int reloj = 0;
+  int angulooo = 90;
+  int anguloooMin = 0;
+  int hue = 0;
   // efect loop
   while (true)
   {
-    // actualizes H S V for every led
-    for (int i = 0; i < FRAME_BUFFER_SIZE; i++)
+    if (millis() > reloj + 30)
     {
-      updatePixel(i, lienzoHue[i], lienzoSaturacion[i], lienzoValue[i]);
-    }
-    
-    //---------------------------------------------------------------------------------------------------------
-    // color transition code
-    //---------------------------------------------------------------------------------------------------------
-    value_colorTransition = color.methodValue();
-    amplitud_Transition = sp * 10;
-    delay_Transition = amplitud_Transition * value_colorTransition + 10;
-    //---------------------------------------------------------------------------------------------------------
-    // brightness transition code
-    //---------------------------------------------------------------------------------------------------------
-    value_brightnessTransition = brightness.methodValue();
-    newBr = int(BRIGHTNESS * value_brightnessTransition);
-    //---------------------------------------------------------------------------------------------------------
-    // sentido transition code
-    //---------------------------------------------------------------------------------------------------------
-    sentido = 100 * flow.methodValue();
-
-    if (millis() - timer_Transition > delay_Transition)
-    {
-      for (int n = 0; n < FRAME_BUFFER_SIZE; n++)
+      angulooo++;
+      anguloooMin++;
+      reloj = millis();
+      if (angulooo > 360)
       {
-        uint8_t hueLienzo = lienzoHue[n];
-        if (sentido < 70)
-        {
-          hueLienzo++;
-          if (hueLienzo >= hueMax)
-          {
-            hueLienzo = hueMin;
-          }
-        }
-        else
-        {
-          hueLienzo--;
-          if (hueLienzo <= hueMin)
-          {
-            hueLienzo = hueMax;
-          }
-        }
-
-        lienzoHue[n] = hueLienzo;
+        hue = hue + 15;
+        angulooo = 0;
       }
-      timer_Transition = millis();
+      if (anguloooMin > 360)
+      {
+        anguloooMin = 0;
+      }
+      if (hue > 255)
+      {
+        hue = 0;
+      }
     }
+    arco1.setAngluoInValues(angulooo, anguloooMin);
+    arco1.setArcoHue(algoo, hue);
+    arco1.setArcoSat(algoo, 200);
+    arco1.setArcoVal(algoo, 200);
+    algoo.clearBuffer();
+    arco1.writeToFrame(algoo);
+    algoo.updateFrameBuffer(frameBuffer);
     serialCheck();
   }
 }

@@ -95,9 +95,12 @@ void updateLeds()
       uint8_t v = frameBuffer[n][2];
       for (int i = 0; i < ledsPerPixel; i++)
       {
-        leds[pixelLed+i] = CHSV(h, s, v);
+        leds[pixelLed + i] = CHSV(h, s, v);
       }
     }
+    uint8_t h = frameBuffer[n][0];
+    uint8_t s = frameBuffer[n][1];
+    uint8_t v = frameBuffer[n][2];
   }
   if (newBr != br)
   {

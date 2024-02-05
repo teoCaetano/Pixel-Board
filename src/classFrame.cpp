@@ -4,7 +4,7 @@
 #include <algorithm>
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
-//define the test as true to get the values in the serial monitor
+// define the test as true to get the values in the serial monitor
 //-----------------------------------------------------------------------------------------------------------------------------------------
 
 #define TEST_CARTESIANO false
@@ -13,7 +13,7 @@
 #define TEST_SATURATION false
 #define TEST_VALUE false
 #define TEST_MATRIX false
-#define TEST_PIXELS_PER_ROW false 
+#define TEST_PIXELS_PER_ROW false
 #define TEST_MAX_LEDS_PER_ROW false
 #define TEST_LEDS_PER_PIXEL false
 
@@ -39,22 +39,32 @@ private:
     std::vector<uint8_t> hueBuffer;
     std::vector<uint8_t> valueBuffer;
     std::vector<uint8_t> saturationBuffer;
-    void constructorXY();
-    void constructorPolar();
-    void constructorMapDegre();
 
 public:
     classFrame(int heigh, int width);
+    //-------------------------------------------------------------------------------------------
+    // buffer methods
+    //-------------------------------------------------------------------------------------------
+    void updateFrameBuffer(uint8_t buffer[][3]);
+    void clearBuffer();
+    //-------------------------------------------------------------------------------------------
+    // constructors
+    //-------------------------------------------------------------------------------------------
+    void constructorXY();
+    void constructorPolar();
+    void constructorMapDegre();
     // construye el array de valores para poder mostrar la imagen en la matriz
     void matrixConstructor(bool serpenty, bool start, bool simetria, int lesdPPixel, bool round);
     //-------------------------------------------------------------------------------------------
-    // write methods
+    // write
     //-------------------------------------------------------------------------------------------
     void writeLedsPerPixelsTo(int lesdspixels[]);
     void writepixelLedMapTo(int ledsMap[]);
     //-------------------------------------------------------------------------------------------
-    // geter methods
+    // geter
     //-------------------------------------------------------------------------------------------
+    // devuelve el tamaño del frame buffer size
+    int getFrameBufferSize();
     // devuelve el mayor radio dentro del mapa
     int getMaxRadio();
     // devuelve el mayor grado dentro de un anillo determinado del mapa
@@ -79,6 +89,14 @@ public:
     int getGradFromAdress(int adr);
     // devuelve el valor de el numero de pixel de radio de determinada posicion de el vector
     int getMapGradFromAdress(int adr);
+
+    int getHueFromAdress(int adr);
+    int getSatFromAdress(int adr);
+    int getValFromAdress(int adr);
+
+    void setHueFromAdress(int adr, int value);
+    void setSatFromAdress(int adr, int value);
+    void setValFromAdress(int adr, int value);
     // destructor classe
     ~classFrame();
 };
@@ -102,10 +120,32 @@ classFrame::classFrame(int heigh, int width)
     hueBuffer.resize(frameBufferSize, 0);
     valueBuffer.resize(frameBufferSize, 0);
     saturationBuffer.resize(frameBufferSize, 0);
+}
 
-    constructorXY();
-    constructorPolar();
-    constructorMapDegre();
+void classFrame::updateFrameBuffer(uint8_t buffer[][3])
+{
+    for (int i = 0; i < frameBufferSize; i++)
+    {
+        
+        if (buffer[i][0] != hueBuffer[i])
+        {
+            buffer[i][0] = hueBuffer[i];
+        }
+        if (buffer[i][1] != saturationBuffer[i])
+        {
+            buffer[i][1] = saturationBuffer[i];
+        }
+        if (buffer[i][2] = valueBuffer[i])
+        {
+            buffer[i][2] = valueBuffer[i];
+        }
+    }
+}
+void classFrame::clearBuffer()
+{
+    std::fill(hueBuffer.begin(),hueBuffer.end(),0);
+    std::fill(saturationBuffer.begin(),saturationBuffer.end(),0);
+    std::fill(valueBuffer.begin(),valueBuffer.end(),0);
 }
 
 void classFrame::matrixConstructor(bool serpenty, bool start, bool simetria, int lesdPPixel, bool round)
@@ -748,24 +788,56 @@ int classFrame::getMapGradFromAdress(int adr)
     return gradMapCordinates[adr];
 }
 
-void classFrame::writeLedsPerPixelsTo(int lesdspixels[] )
+int classFrame::getFrameBufferSize()
+{
+    return frameBufferSize;
+}
+
+int classFrame::getHueFromAdress(int adr)
+{
+    return hueBuffer[adr];
+}
+
+int classFrame::getSatFromAdress(int adr)
+{
+    return saturationBuffer[adr];
+}
+
+int classFrame::getValFromAdress(int adr)
+{
+    return valueBuffer[adr];
+}
+
+void classFrame::setHueFromAdress(int adr, int value)
+{
+    hueBuffer[adr] = value;
+}
+
+void classFrame::setSatFromAdress(int adr, int value)
+{
+    saturationBuffer[adr] = value;
+}
+
+void classFrame::setValFromAdress(int adr, int value)
+{
+    valueBuffer[adr] = value;
+}
+
+void classFrame::writeLedsPerPixelsTo(int lesdspixels[])
 {
     for (int i = 0; i < frameBufferSize; i++)
     {
-        lesdspixels[i]=ledsPerPixel[i];
+        lesdspixels[i] = ledsPerPixel[i];
     }
-    
 }
 
 void classFrame::writepixelLedMapTo(int ledsMap[])
 {
     for (int i = 0; i < frameBufferSize; i++)
     {
-        ledsMap[i]=pixelLedMap[i];
-    }    
+        ledsMap[i] = pixelLedMap[i];
+    }
 }
-
-
 
 classFrame::~classFrame()
 {

@@ -25,6 +25,7 @@
 #include "graphics.h"
 #include "config.h"
 #include "pixeltypes.h"
+#include "classFrame.h"
 
 #define ROJO 0
 #define NARANJA 32
@@ -45,6 +46,8 @@ extern int ledsPerPixel_prueba[FRAME_BUFFER_SIZE];
 extern uint8_t lienzoHue[FRAME_BUFFER_SIZE];
 extern uint8_t lienzoSaturacion[FRAME_BUFFER_SIZE];
 extern uint8_t lienzoValue[FRAME_BUFFER_SIZE];
+
+extern classFrame algoo;
 
 
 void serialCheck(); 

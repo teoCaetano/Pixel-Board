@@ -26,6 +26,19 @@ private:
     std::vector<uint8_t> hueBuffer;
     std::vector<uint8_t> valueBuffer;
     std::vector<uint8_t> saturationBuffer;
+
+
+public:
+    /*
+    @brief es el constructor de la clase toma como parametros la altura y el ancho de la matrix en pixeles
+    e inicializa los vectores para los distintos metodos de la clase
+    @param {int} heigh altura de la matriz
+    @param {int} width ancho matriz
+    */
+    classFrame(int heigh, int width);
+
+    void updateFrameBuffer(uint8_t buffer[][3]);
+    void clearBuffer();
     /*
     @brief crea el mapa con los valores XY de los pixeles de la matriz, en matrices impares existe la posicion 0 en matrices pares no
     */
@@ -38,15 +51,6 @@ private:
     @brief convierte los valores de grados a una sumatoria de naturales
     */
     void constructorMapDegre();
-
-public:
-    /*
-    @brief es el constructor de la clase toma como parametros la altura y el ancho de la matrix en pixeles
-    e inicializa los vectores para los distintos metodos de la clase
-    @param {int} heigh altura de la matriz
-    @param {int} width ancho matriz
-    */
-    classFrame(int heigh, int width);
     //-------------------------------------------------------------------------------------------
     // write methods
     //-------------------------------------------------------------------------------------------
@@ -62,6 +66,8 @@ public:
         @param {int} lesdPPixel  keep at 1 if if your pixels are 1 led, and 2 if the pixels are 2, and so on forth
     */
     void matrixConstructor(bool serpenty, bool start, bool simetria, int lesdPPixel, bool round);
+    // @brief devuelve el tamaño del frame buffer size
+    int getFrameBufferSize();
     // @brief devuelve el mayor radio dentro del mapa
     int getMaxRadio();
     // @brief devuelve el mayor grado dentro de un anillo determinado del mapa
@@ -100,6 +106,14 @@ public:
     // @brief devuelve el valor de el numero de pixel de radio de determinada posicion de el vector
     // @param  {int} adr la posicion del vector
     int getMapGradFromAdress(int adr);
+
+    int getHueFromAdress(int adr);
+    int getSatFromAdress(int adr);
+    int getValFromAdress(int adr);
+
+    void setHueFromAdress(int adr, int value);
+    void setSatFromAdress(int adr, int value);
+    void setValFromAdress(int adr, int value);
     // @brief destructor classe
     ~classFrame();
 };

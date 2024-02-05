@@ -16,11 +16,11 @@
 /*
     @brief true if the leds are wired serpenty like an S
 */
-#define SERPENTY false
+#define SERPENTY true
 /*
     @brief true if first led is at the right false if left
 */
-#define START_LOCATION true
+#define START_LOCATION false
 /*
     @brief keep at 1 if if your pixels are 1 led, and 2 if the pixels are 2, and so on forth
 */

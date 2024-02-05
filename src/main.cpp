@@ -15,16 +15,17 @@ uint8_t frameBuffer[FRAME_BUFFER_SIZE][3];
 int frame2PixelLedMap[FRAME_BUFFER_SIZE];
 int ledsPerPixel_prueba[FRAME_BUFFER_SIZE];
 
+classFrame algoo(HEIGHT,WIDTH);
 
 void setup()
 {
   Serial.begin(115200);
-  classFrame algoo(HEIGHT,WIDTH);
-
+  algoo.constructorXY();
+  algoo.constructorPolar();
+  algoo.constructorMapDegre();
   algoo.matrixConstructor(SERPENTY, START_LOCATION, SYMETRIC, 3, ROUND_MATRIX);
   algoo.writeLedsPerPixelsTo(ledsPerPixel_prueba);
   algoo.writepixelLedMapTo(frame2PixelLedMap);
-
   FastLED.addLeds<CHIPSET, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS);
   FastLED.setBrightness(br);
   FastLED.clear();
