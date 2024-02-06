@@ -23,6 +23,10 @@ private:
     int height_cl;
     int width_cl;
     int frameBufferSize;
+    bool serpenty_cl;
+    bool start_cl;
+    bool simetria_cl;
+    bool round_cl;
     // cartesiano
     std::vector<int> XCordenates;
     std::vector<int> YCordinates;
@@ -65,8 +69,12 @@ public:
     //-------------------------------------------------------------------------------------------
     // devuelve el tamaño del frame buffer size
     int getFrameBufferSize();
+    // devuelve el menor radio dentro del mapa
+    int getMinRadio();
     // devuelve el mayor radio dentro del mapa
     int getMaxRadio();
+    // devuelve el mayor radio dentro del mapa, pero discrimina si round == true(pantalla redonda)
+    int getMaxRadioValido();
     // devuelve el mayor grado dentro de un anillo determinado del mapa
     int getMaxDegre(int ring);
     // devueve el menor grado dentro de un anillo determinado del mapa
@@ -126,7 +134,7 @@ void classFrame::updateFrameBuffer(uint8_t buffer[][3])
 {
     for (int i = 0; i < frameBufferSize; i++)
     {
-        
+
         if (buffer[i][0] != hueBuffer[i])
         {
             buffer[i][0] = hueBuffer[i];
@@ -143,15 +151,20 @@ void classFrame::updateFrameBuffer(uint8_t buffer[][3])
 }
 void classFrame::clearBuffer()
 {
-    std::fill(hueBuffer.begin(),hueBuffer.end(),0);
-    std::fill(saturationBuffer.begin(),saturationBuffer.end(),0);
-    std::fill(valueBuffer.begin(),valueBuffer.end(),0);
+    std::fill(hueBuffer.begin(), hueBuffer.end(), 0);
+    std::fill(saturationBuffer.begin(), saturationBuffer.end(), 0);
+    std::fill(valueBuffer.begin(), valueBuffer.end(), 0);
 }
 
 void classFrame::matrixConstructor(bool serpenty, bool start, bool simetria, int lesdPPixel, bool round)
 {
     int radioMaximo = 0;
     int suma = 0;
+
+    serpenty_cl = serpenty;
+    start_cl = start;
+    simetria_cl = simetria;
+    round_cl = round;
 
     // es un contador que sirve para desplazarce por el array
     int pixelsPerRow_suma = 0;
@@ -590,6 +603,47 @@ int classFrame::getMaxRadio()
         }
     }
     return max;
+}
+
+int classFrame::getMaxRadioValido()
+{
+    int valor = 0;
+    if (round_cl == true)
+    {
+        if (0 == getMinRadio())
+        {
+            valor = width_cl / 2 - 1;
+        }
+        else
+        {
+            valor = width_cl / 2 ;
+        }
+    }
+    else
+    {
+        int valor = radCordenates[0];
+        for (int i = 0; i < frameBufferSize; i++)
+        {
+            if (radCordenates[i] > valor)
+            {
+                valor = radCordenates[i];
+            }
+        }
+    }
+    return valor;
+}
+
+int classFrame::getMinRadio()
+{
+    int min = radCordenates[0];
+    for (int i = 0; i < frameBufferSize; i++)
+    {
+        if (radCordenates[i] < min)
+        {
+            min = radCordenates[i];
+        }
+    }
+    return min;
 }
 
 int classFrame::getMaxDegre(int ring)

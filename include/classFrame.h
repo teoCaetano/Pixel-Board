@@ -10,6 +10,10 @@ private:
     int height_cl;
     int width_cl;
     int frameBufferSize;
+    bool serpenty_cl;
+    bool start_cl;
+    bool simetria_cl;
+    bool round_cl;
     // cartesiano
     std::vector<int> XCordenates;
     std::vector<int> YCordinates;
@@ -68,8 +72,12 @@ public:
     void matrixConstructor(bool serpenty, bool start, bool simetria, int lesdPPixel, bool round);
     // @brief devuelve el tamaño del frame buffer size
     int getFrameBufferSize();
+    // @brief devuelve el menor radio dentro del mapa
+    int getMinRadio();
     // @brief devuelve el mayor radio dentro del mapa
     int getMaxRadio();
+    // @brief devuelve el mayor radio dentro del mapa, pero discrimina si round == true(pantalla redonda)
+    int getMaxRadioValido();
     // @brief devuelve el mayor grado dentro de un anillo determinado del mapa
     // @param {int} ring radio del mapa
     int getMaxDegre(int ring);

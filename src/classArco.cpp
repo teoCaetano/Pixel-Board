@@ -7,33 +7,39 @@
 class classArco
 {
 private:
-    std::vector<int> hueEffecto;
-    std::vector<int> saturationEffecto;
-    std::vector<int> valueEffecto;
-
     int frameBufferSize_ef;
     int minAng;
     int maxAng;
 
 public:
+    std::vector<int> hueEffecto;
+    std::vector<int> saturationEffecto;
+    std::vector<int> valueEffecto;
+
     classArco(classFrame algo);
+
     void setAngluoInValues(int minA, int maxA);
-    void setArcoHue(classFrame algo, int to);
-    void setArcoSat(classFrame algo, int to);
-    void setArcoVal(classFrame algo, int to);
-    void writeToFrame(classFrame& algo);
+
+    void setArcoTo(classFrame algo, std::vector<int> &vec, int to);
+    void setArcoFade(classFrame algo, std::vector<int> &vec, int from, int to);
+    void setArcoRingsFade(classFrame algo, std::vector<int> &vec, int from, int to);
+
+    void writeToFrame(classFrame &algo);
+
+    void desplazoAngulo(int angulo);
+    void aumentoAngulo(int angulo);
     ~classArco();
 };
 
 classArco::classArco(classFrame algo)
 {
     frameBufferSize_ef = algo.getFrameBufferSize();
-    hueEffecto.resize(frameBufferSize_ef, 0);
-    saturationEffecto.resize(frameBufferSize_ef, 0);
-    valueEffecto.resize(frameBufferSize_ef, 0);
+    hueEffecto.resize(frameBufferSize_ef, -1);
+    saturationEffecto.resize(frameBufferSize_ef, -1);
+    valueEffecto.resize(frameBufferSize_ef, -1);
 }
 
-void classArco::writeToFrame(classFrame& algo)
+void classArco::writeToFrame(classFrame &algo)
 {
     for (int i = 0; i < frameBufferSize_ef; i++)
     {
@@ -48,8 +54,42 @@ void classArco::writeToFrame(classFrame& algo)
         if (valueEffecto[i] > -1)
         {
             algo.setValFromAdress(i, valueEffecto[i]);
-
         }
+    }
+}
+
+void classArco::aumentoAngulo(int angulo)
+{
+    maxAng += angulo;
+    if (maxAng < 0)
+    {
+        maxAng += 360;
+    }
+    if (maxAng > 360)
+    {
+        maxAng -= 360;
+    }
+}
+
+void classArco::desplazoAngulo(int angulo)
+{
+    minAng += angulo;
+    maxAng += angulo;
+    if (minAng < 0)
+    {
+        minAng += 360;
+    }
+    if (minAng > 360)
+    {
+        minAng -= 360;
+    }
+    if (maxAng < 0)
+    {
+        maxAng += 360;
+    }
+    if (maxAng > 360)
+    {
+        maxAng -= 360;
     }
 }
 
@@ -59,23 +99,149 @@ void classArco::setAngluoInValues(int minA, int maxA)
     maxAng = maxA;
     if (minAng < 0)
     {
-        minAng = 360;
+        minAng = 0;
     }
     if (minAng > 360)
     {
-        minAng = 0;
+        minAng = 360;
     }
     if (maxAng < 0)
     {
-        maxAng = 360;
+        maxAng = 0;
     }
     if (maxAng > 360)
     {
-        maxAng = 0;
+        maxAng = 360;
     }
 }
 
-void classArco::setArcoHue(classFrame algo, int to)
+void classArco::setArcoRingsFade(classFrame algo, std::vector<int> &vec, int from, int to)
+{
+    int maxRad = algo.getMaxRadioValido();
+    int minRad = algo.getMinRadio();
+    int rad_i = 0;
+    int angulo_i = 0;
+    int angulo_im = 0;
+    int maxAng_m = 0;
+    int Local = 0;
+    bool modo_maxmax = false;
+    bool modo_maxmin = false;
+    if (maxAng > minAng)
+    {
+        modo_maxmax = true;
+        modo_maxmin = false;
+    }
+    if (maxAng < minAng)
+    {
+        modo_maxmax = false;
+        modo_maxmin = true;
+    }
+
+    for (int i = 0; i < frameBufferSize_ef; i++)
+    {
+        angulo_i = algo.getGradFromAdress(i);
+        rad_i = algo.getRadFromAdress(i);
+        if (modo_maxmax == true)
+        {
+            Local = map(rad_i, minRad, maxRad, from, to);
+            if ((angulo_i <= maxAng) && (angulo_i >= minAng))
+            {
+                vec[i] = Local;
+            }
+            else
+            {
+                vec[i] = -1;
+            }
+        }
+        if (modo_maxmin == true)
+        {
+            if (angulo_i <= maxAng)
+            {
+                angulo_im = angulo_i;
+                angulo_im = angulo_im + 360;
+            }
+            else
+            {
+                angulo_im = angulo_i;
+            }
+
+            maxAng_m = maxAng + 360;
+
+            Local = map(rad_i, minRad, maxRad, from, to);
+            if ((angulo_im <= maxAng_m) && (angulo_im >= minAng))
+            {
+                vec[i] = Local;
+            }
+            else
+            {
+                vec[i] = -1;
+            }
+        }
+    }
+}
+
+void classArco::setArcoFade(classFrame algo, std::vector<int> &vec, int from, int to)
+{
+    int angulo_i = 0;
+    int angulo_im = 0;
+    int maxAng_m = 0;
+    int Local = 0;
+    bool modo_maxmax = false;
+    bool modo_maxmin = false;
+    if (maxAng > minAng)
+    {
+        modo_maxmax = true;
+        modo_maxmin = false;
+    }
+    if (maxAng < minAng)
+    {
+        modo_maxmax = false;
+        modo_maxmin = true;
+    }
+
+    for (int i = 0; i < frameBufferSize_ef; i++)
+    {
+        angulo_i = algo.getGradFromAdress(i);
+        if (modo_maxmax == true)
+        {
+            Local = map(angulo_i, minAng, maxAng, from, to);
+            if ((angulo_i < maxAng) && (angulo_i > minAng))
+            {
+                vec[i] = Local;
+            }
+            else
+            {
+                vec[i] = -1;
+            }
+        }
+        if (modo_maxmin == true)
+        {
+            if (angulo_i <= maxAng)
+            {
+                angulo_im = angulo_i;
+                angulo_im = angulo_im + 360;
+            }
+            else
+            {
+                angulo_im = angulo_i;
+            }
+
+            maxAng_m = maxAng + 360;
+
+            Local = map(angulo_im, minAng, maxAng_m, from, to);
+            if ((angulo_im <= maxAng_m) && (angulo_im >= minAng))
+            {
+                vec[i] = Local;
+            }
+            else
+            {
+                vec[i] = -1;
+            }
+        }
+    }
+}
+
+void classArco::setArcoTo(classFrame algo, std::vector<int> &vec, int to)
 {
     int angulo_i = 0;
     bool modo_maxmax = false;
@@ -98,110 +264,22 @@ void classArco::setArcoHue(classFrame algo, int to)
         {
             if ((angulo_i < maxAng) && (angulo_i > minAng))
             {
-                hueEffecto[i] = to;
+                vec[i] = to;
             }
             else
             {
-                hueEffecto[i] = -1;
+                vec[i] = -1;
             }
         }
         if (modo_maxmin == true)
         {
             if ((angulo_i < minAng) && (angulo_i > maxAng))
             {
-                hueEffecto[i] = -1;
+                vec[i] = -1;
             }
             else
             {
-                hueEffecto[i] = to;
-            }
-        }
-    }
-}
-
-void classArco::setArcoSat(classFrame algo, int to)
-{
-    int angulo_i = 0;
-    bool modo_maxmax = false;
-    bool modo_maxmin = false;
-    if (maxAng > minAng)
-    {
-        modo_maxmax = true;
-        modo_maxmin = false;
-    }
-    if (maxAng < minAng)
-    {
-        modo_maxmax = false;
-        modo_maxmin = true;
-    }
-
-    for (int i = 0; i < frameBufferSize_ef; i++)
-    {
-        angulo_i = algo.getGradFromAdress(i);
-        if (modo_maxmax == true)
-        {
-            if ((angulo_i < maxAng) && (angulo_i > minAng))
-            {
-                saturationEffecto[i] = to;
-            }
-            else
-            {
-                saturationEffecto[i] = -1;
-            }
-        }
-        if (modo_maxmin == true)
-        {
-            if ((angulo_i < minAng) && (angulo_i > maxAng))
-            {
-                saturationEffecto[i] = -1;
-            }
-            else
-            {
-                saturationEffecto[i] = to;
-            }
-        }
-    }
-}
-
-void classArco::setArcoVal(classFrame algo, int to)
-{
-    int angulo_i = 0;
-    bool modo_maxmax = false;
-    bool modo_maxmin = false;
-    if (maxAng > minAng)
-    {
-        modo_maxmax = true;
-        modo_maxmin = false;
-    }
-    if (maxAng < minAng)
-    {
-        modo_maxmax = false;
-        modo_maxmin = true;
-    }
-
-    for (int i = 0; i < frameBufferSize_ef; i++)
-    {
-        angulo_i = algo.getGradFromAdress(i);
-        if (modo_maxmax == true)
-        {
-            if ((angulo_i < maxAng) && (angulo_i > minAng))
-            {
-                valueEffecto[i] = to;
-            }
-            else
-            {
-                valueEffecto[i] = -1;
-            }
-        }
-        if (modo_maxmin == true)
-        {
-            if ((angulo_i < minAng) && (angulo_i > maxAng))
-            {
-                valueEffecto[i] = -1;
-            }
-            else
-            {
-                valueEffecto[i] = to;
+                vec[i] = to;
             }
         }
     }

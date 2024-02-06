@@ -26,38 +26,70 @@ void updatePixel(int pixel, int hue, int sat, int val)
 void efecto3()
 {
   classArco arco1(algoo);
+  arco1.setAngluoInValues(0, 359);
+  classArco arco2(algoo);
+  arco2.setAngluoInValues(0, 45);
   unsigned int reloj = 0;
-  int angulooo = 90;
-  int anguloooMin = 0;
   int hue = 0;
   // efect loop
   while (true)
   {
     if (millis() > reloj + 30)
     {
-      angulooo++;
-      anguloooMin++;
       reloj = millis();
-      if (angulooo > 360)
-      {
-        hue = hue + 15;
-        angulooo = 0;
-      }
-      if (anguloooMin > 360)
-      {
-        anguloooMin = 0;
-      }
+      //hue++;
+      hue = hue +2 ;
       if (hue > 255)
       {
         hue = 0;
       }
+        arco2.desplazoAngulo(2);
+        //arco2.aumentoAngulo(1);
+        arco1.desplazoAngulo(1);
+      //arco1.aumentoAngulo(1);
     }
-    arco1.setAngluoInValues(angulooo, anguloooMin);
-    arco1.setArcoHue(algoo, hue);
-    arco1.setArcoSat(algoo, 200);
-    arco1.setArcoVal(algoo, 200);
+    // efecto 1
+    /*
+      arco1.setArcoFade(algoo, arco1.hueEffecto, 0, 255);
+      arco1.setArcoFade(algoo, arco1.saturationEffecto, 255, 0);
+      arco1.setArcoRingsFade(algoo, arco1.valueEffecto, 0, 255);
+    */
+    // efecto 2
+
+    /*
+      arco1.setArcoFade(algoo, arco1.hueEffecto, 0, 255);
+      arco1.setArcoRingsFade(algoo, arco1.saturationEffecto, 250, hue);
+      arco1.setArcoRingsFade(algoo, arco1.valueEffecto, 0, 255);
+    */
+    // efecto 3
+
+    /*
+      arco1.setArcoFade(algoo, arco1.hueEffecto, 125, 150);
+      arco1.setArcoFade(algoo, arco1.valueEffecto, 255, 0);
+      arco1.setArcoRingsFade(algoo, arco1.saturationEffecto, 0, 250);
+    */
+    //efecto 4
+    /*
+    arco1.setArcoFade(algoo, arco1.hueEffecto, 0, 255);
+    arco1.setArcoRingsFade(algoo, arco1.saturationEffecto, 250, 0);
+    arco1.setArcoRingsFade(algoo, arco1.valueEffecto, 0, 255);
+    */
+    //efecto 5
+    /*
+    arco1.setArcoTo(algoo, arco1.hueEffecto, hue);
+    arco1.setArcoRingsFade(algoo, arco1.saturationEffecto, 250, 80);
+    arco1.setArcoRingsFade(algoo, arco1.valueEffecto, 0, 255);
+
+    arco2.setArcoTo(algoo, arco2.saturationEffecto,200);   
+    */
+    arco1.setArcoFade(algoo, arco1.hueEffecto, 0, 255);
+    arco1.setArcoRingsFade(algoo, arco1.saturationEffecto, 250, 0);
+    arco1.setArcoRingsFade(algoo, arco1.valueEffecto, 0, 255);
+    arco2.setArcoFade(algoo, arco2.saturationEffecto,100,200);   
+
     algoo.clearBuffer();
     arco1.writeToFrame(algoo);
+    arco2.writeToFrame(algoo);
     algoo.updateFrameBuffer(frameBuffer);
     serialCheck();
   }
