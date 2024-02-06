@@ -16,6 +16,7 @@ public:
     std::vector<int> hueEffecto;
     std::vector<int> saturationEffecto;
     std::vector<int> valueEffecto;
+    std::vector<bool> ringEnable;
 
     classArco(classFrame algo);
 
@@ -29,6 +30,11 @@ public:
 
     void desplazoAngulo(int angulo);
     void aumentoAngulo(int angulo);
+
+    void allRings();
+    void removeRing(classFrame algo, int ring);
+    void addRing(classFrame algo, int ring);
+
     ~classArco();
 };
 #endif
