@@ -3,18 +3,21 @@
 #include <vector>
 #include <algorithm>
 #include "classFrame.h"
+#include "FastNoiseLite.h"
 
 class classAlma
 {
 private:
     int frameBufferSize_ef;
     int minAng = 0;
-    int maxAng = 360;
+    int maxAng = 359;
 
 public:
     std::vector<int> hueEffecto;
     std::vector<int> saturationEffecto;
     std::vector<int> valueEffecto;
+
+    void setAlmaNoiseTo(classFrame algo, FastNoiseLite objetoNs, std::vector<int> &vec, int mapTo);
 
     void setAlmaFade(classFrame algo, std::vector<int> &vec, int from, int to);
     void setAlmaTo(classFrame algo, std::vector<int> &vec, int to);
@@ -41,19 +44,9 @@ void classAlma::writeToFrame(classFrame &algo)
 {
     for (int i = 0; i < frameBufferSize_ef; i++)
     {
-
-        if (hueEffecto[i] > -1)
-        {
-            algo.setHueFromAdress(i, hueEffecto[i]);
-        }
-        if (saturationEffecto[i] > -1)
-        {
-            algo.setSatFromAdress(i, saturationEffecto[i]);
-        }
-        if (valueEffecto[i] > -1)
-        {
-            algo.setValFromAdress(i, valueEffecto[i]);
-        }
+        algo.setHueFromAdress(i, hueEffecto[i]);
+        algo.setSatFromAdress(i, saturationEffecto[i]);
+        algo.setValFromAdress(i, valueEffecto[i]);
     }
 }
 
@@ -123,10 +116,6 @@ void classAlma::setAlmaRingsFade(classFrame algo, std::vector<int> &vec, int fro
             {
                 vec[i] = Local;
             }
-            else
-            {
-                vec[i] = -1;
-            }
         }
         if (modo_maxmin == true)
         {
@@ -146,10 +135,6 @@ void classAlma::setAlmaRingsFade(classFrame algo, std::vector<int> &vec, int fro
             if ((angulo_im <= maxAng_m) && (angulo_im >= minAng))
             {
                 vec[i] = Local;
-            }
-            else
-            {
-                vec[i] = -1;
             }
         }
     }
@@ -211,6 +196,9 @@ void classAlma::setAlmaFade(classFrame algo, std::vector<int> &vec, int from, in
 void classAlma::setAlmaTo(classFrame algo, std::vector<int> &vec, int to)
 {
     int angulo_i = 0;
+    int angulo_im = 0;
+    int maxAng_m = 0;
+    int Local = 0;
     bool modo_maxmax = false;
     bool modo_maxmin = false;
     if (maxAng > minAng)
@@ -233,21 +221,54 @@ void classAlma::setAlmaTo(classFrame algo, std::vector<int> &vec, int to)
             {
                 vec[i] = to;
             }
-            else
-            {
-                vec[i] = -1;
-            }
         }
         if (modo_maxmin == true)
         {
-            if ((angulo_i < minAng) && (angulo_i > maxAng))
+            if (angulo_i <= maxAng)
             {
-                vec[i] = -1;
+                angulo_im = angulo_i;
+                angulo_im = angulo_im + 360;
             }
             else
             {
+                angulo_im = angulo_i;
+            }
+
+            maxAng_m = maxAng + 360;
+
+            if ((angulo_im <= maxAng_m) && (angulo_im >= minAng))
+            {
                 vec[i] = to;
             }
+        }
+    }
+}
+
+void classAlma::setAlmaNoiseTo(classFrame algo, FastNoiseLite objetoNs, std::vector<int> &vec, int mapTo)
+{
+    float valX = 0;
+    float valY = 0;
+    float val = 0;
+    int valToWirite = 0;
+    for (int i = 0; i < frameBufferSize_ef; i++)
+    {
+        valX = algo.getXFromAdress(i) / 10.0f;
+        valY = algo.getYFromAdress(i) / 10.0f;
+        objetoNs.DomainWarp(valX, valY);
+        val = objetoNs.GetNoise(valX, valY);
+        val = val * mapTo;
+        valToWirite = val + vec[i];
+        if (valToWirite > 255)
+        {
+            vec[i] = 255;
+        }
+        else if (valToWirite < 0)
+        {
+            vec[i] = 0;
+        }
+        else
+        {
+            vec[i] = valToWirite;
         }
     }
 }

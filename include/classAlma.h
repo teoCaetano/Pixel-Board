@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include "classFrame.h"
+#include "FastNoiseLite.h"
 
 class classAlma
 {
@@ -16,6 +17,8 @@ public:
     std::vector<int> hueEffecto;
     std::vector<int> saturationEffecto;
     std::vector<int> valueEffecto;
+
+    void setAlmaNoiseTo(classFrame algo, FastNoiseLite objetoNs, std::vector<int> &vec, int mapTo);
 
     void setAlmaFade(classFrame algo, std::vector<int> &vec, int from, int to);
     void setAlmaTo(classFrame algo, std::vector<int> &vec, int to);
