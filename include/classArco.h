@@ -12,28 +12,30 @@ private:
     int minAng;
     int maxAng;
 
+    classFrame &algo;
+
 public:
     std::vector<int> hueEffecto;
     std::vector<int> saturationEffecto;
     std::vector<int> valueEffecto;
     std::vector<bool> ringEnable;
 
-    classArco(classFrame algo);
+    classArco(classFrame algooo);
 
     void setAngluoInValues(int minA, int maxA);
 
-    void setArcoTo(classFrame algo, std::vector<int> &vec, int to);
-    void setArcoFade(classFrame algo, std::vector<int> &vec, int from, int to);
-    void setArcoRingsFade(classFrame algo, std::vector<int> &vec, int from, int to);
+    void setArcoTo(std::vector<int> &vec, int to);
+    void setArcoFade(std::vector<int> &vec, int from, int to);
+    void setArcoRingsFade(std::vector<int> &vec, int from, int to);
 
-    void writeToFrame(classFrame &algo);
+    void writeToFrame();
 
     void desplazoAngulo(int angulo);
     void aumentoAngulo(int angulo);
 
     void allRings();
-    void removeRing(classFrame algo, int ring);
-    void addRing(classFrame algo, int ring);
+    void removeRing(int ring);
+    void addRing(int ring);
 
     ~classArco();
 };

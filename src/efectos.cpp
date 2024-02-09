@@ -40,29 +40,33 @@ void efecto3()
   arco5.setAngluoInValues(135, 180);
   classAlma alma1(algoo);
   FastNoiseLite noise;
-  noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+  noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2S);
 
-  alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 10, 255);
-  alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 9, 250);
-  alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 8, 245);
-  alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 7, 225);
-  alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 6, 200);
-  alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 5, 140);
-  alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 4, 100);
-  alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 3, 50);
-  alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 2, 10);
-  alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 1, 0);
+  FastNoiseLite noise2;
+  noise2.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+  noise2.SetSeed(1231);
 
-  alma1.setAlmaRingTo(algoo, alma1.saturationEffecto, 10, 25);
-  alma1.setAlmaRingTo(algoo, alma1.saturationEffecto, 9, 45);
-  alma1.setAlmaRingTo(algoo, alma1.saturationEffecto, 8, 65);
-  alma1.setAlmaRingTo(algoo, alma1.saturationEffecto, 7, 100);
-  alma1.setAlmaRingTo(algoo, alma1.saturationEffecto, 6, 140);
-  alma1.setAlmaRingTo(algoo, alma1.saturationEffecto, 5, 200);
-  alma1.setAlmaRingTo(algoo, alma1.saturationEffecto, 4, 215);
-  alma1.setAlmaRingTo(algoo, alma1.saturationEffecto, 3, 180);
-  alma1.setAlmaRingTo(algoo, alma1.saturationEffecto, 2, 180);
-  alma1.setAlmaRingTo(algoo, alma1.saturationEffecto, 1, 0);
+  alma1.setAlmaRingTo(alma1.valueEffecto, 10, 255);
+  alma1.setAlmaRingTo(alma1.valueEffecto, 9, 250);
+  alma1.setAlmaRingTo(alma1.valueEffecto, 8, 245);
+  alma1.setAlmaRingTo(alma1.valueEffecto, 7, 225);
+  alma1.setAlmaRingTo(alma1.valueEffecto, 6, 200);
+  alma1.setAlmaRingTo(alma1.valueEffecto, 5, 140);
+  alma1.setAlmaRingTo(alma1.valueEffecto, 4, 100);
+  alma1.setAlmaRingTo(alma1.valueEffecto, 3, 50);
+  alma1.setAlmaRingTo(alma1.valueEffecto, 2, 10);
+  alma1.setAlmaRingTo(alma1.valueEffecto, 1, 0);
+
+  alma1.setAlmaRingTo(alma1.saturationEffecto, 10, 25);
+  alma1.setAlmaRingTo(alma1.saturationEffecto, 9, 45);
+  alma1.setAlmaRingTo(alma1.saturationEffecto, 8, 65);
+  alma1.setAlmaRingTo(alma1.saturationEffecto, 7, 100);
+  alma1.setAlmaRingTo(alma1.saturationEffecto, 6, 140);
+  alma1.setAlmaRingTo(alma1.saturationEffecto, 5, 200);
+  alma1.setAlmaRingTo(alma1.saturationEffecto, 4, 215);
+  alma1.setAlmaRingTo(alma1.saturationEffecto, 3, 180);
+  alma1.setAlmaRingTo(alma1.saturationEffecto, 2, 180);
+  alma1.setAlmaRingTo(alma1.saturationEffecto, 1, 0);
   unsigned int reloj = 0;
   int hue = 0;
   float sumFloat = 0.1;
@@ -199,23 +203,13 @@ void efecto3()
     arco5.removeRing(algoo, 7);
     */
     noise.SetFrequency(1.1f);
-    noise.SetDomainWarpType(FastNoiseLite::DomainWarpType_BasicGrid);
-    noise.SetDomainWarpAmp(sumFloat);
+    noise2.SetFrequency(1.1f);
 
-    alma1.setAlmaTo(algoo, alma1.hueEffecto, hue);
-
-    alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 10, 255);
-    alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 9, 250);
-    alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 8, 245);
-    alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 7, 225);
-    alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 6, 200);
-    alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 5, 140);
-    alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 4, 100);
-    alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 3, 50);
-    alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 2, 10);
-    alma1.setAlmaRingTo(algoo, alma1.valueEffecto, 1, 0);
-
-    alma1.setAlmaNoiseTo(algoo, noise, alma1.valueEffecto, 20);
+    alma1.setAlmaTo(alma1.hueEffecto, hue);
+    
+    alma1.setNoiseWarp(FastNoiseLite::DomainWarpType_BasicGrid, sumFloat,0);
+    alma1.setAlmaNoiseTo(noise, alma1.valueNoise, 30);
+    alma1.setAlmaNoiseTo(noise2, alma1.saturationNoise, 30);
 
     algoo.clearBuffer();
     /*
@@ -225,7 +219,7 @@ void efecto3()
     arco4.writeToFrame(algoo);
     arco5.writeToFrame(algoo);
     */
-    alma1.writeToFrame(algoo);
+    alma1.writeToFrame();
     algoo.updateFrameBuffer(frameBuffer);
     serialCheck();
   }

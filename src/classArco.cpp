@@ -11,33 +11,35 @@ private:
     int minAng;
     int maxAng;
 
+    classFrame &algo;
+
 public:
     std::vector<int> hueEffecto;
     std::vector<int> saturationEffecto;
     std::vector<int> valueEffecto;
     std::vector<bool> ringEnable;
 
-    classArco(classFrame algo);
+    classArco(classFrame algooo);
 
     void setAngluoInValues(int minA, int maxA);
 
-    void setArcoTo(classFrame algo, std::vector<int> &vec, int to);
-    void setArcoFade(classFrame algo, std::vector<int> &vec, int from, int to);
-    void setArcoRingsFade(classFrame algo, std::vector<int> &vec, int from, int to);
+    void setArcoTo(std::vector<int> &vec, int to);
+    void setArcoFade(std::vector<int> &vec, int from, int to);
+    void setArcoRingsFade(std::vector<int> &vec, int from, int to);
 
-    void writeToFrame(classFrame &algo);
+    void writeToFrame();
 
     void desplazoAngulo(int angulo);
     void aumentoAngulo(int angulo);
 
     void allRings();
-    void removeRing(classFrame algo, int ring);
-    void addRing(classFrame algo, int ring);
+    void removeRing(int ring);
+    void addRing(int ring);
 
     ~classArco();
 };
 
-classArco::classArco(classFrame algo)
+classArco::classArco(classFrame algooo) : algo(algooo)
 {
     frameBufferSize_ef = algo.getFrameBufferSize();
     hueEffecto.resize(frameBufferSize_ef, -1);
@@ -46,7 +48,7 @@ classArco::classArco(classFrame algo)
     ringEnable.resize(frameBufferSize_ef, true);
 }
 
-void classArco::writeToFrame(classFrame &algo)
+void classArco::writeToFrame()
 {
     for (int i = 0; i < frameBufferSize_ef; i++)
     {
@@ -125,7 +127,7 @@ void classArco::setAngluoInValues(int minA, int maxA)
     }
 }
 
-void classArco::setArcoRingsFade(classFrame algo, std::vector<int> &vec, int from, int to)
+void classArco::setArcoRingsFade( std::vector<int> &vec, int from, int to)
 {
     int maxRad = algo.getMaxRadioValido();
     int minRad = algo.getMinRadio();
@@ -190,7 +192,7 @@ void classArco::setArcoRingsFade(classFrame algo, std::vector<int> &vec, int fro
     }
 }
 
-void classArco::setArcoFade(classFrame algo, std::vector<int> &vec, int from, int to)
+void classArco::setArcoFade(std::vector<int> &vec, int from, int to)
 {
     int angulo_i = 0;
     int angulo_im = 0;
@@ -251,7 +253,7 @@ void classArco::setArcoFade(classFrame algo, std::vector<int> &vec, int from, in
     }
 }
 
-void classArco::setArcoTo(classFrame algo, std::vector<int> &vec, int to)
+void classArco::setArcoTo(std::vector<int> &vec, int to)
 {
     int angulo_i = 0;
     bool modo_maxmax = false;
@@ -300,7 +302,7 @@ void classArco::allRings()
     std::fill(ringEnable.begin(), ringEnable.end(), true);
 }
 
-void classArco::addRing(classFrame algo, int ring)
+void classArco::addRing(int ring)
 {
     int valor = 0;
     for (int i = 0; i < frameBufferSize_ef; i++)
@@ -313,7 +315,7 @@ void classArco::addRing(classFrame algo, int ring)
     }
 }
 
-void classArco::removeRing(classFrame algo, int ring)
+void classArco::removeRing(int ring)
 {
     int valor = 0;
     for (int i = 0; i < frameBufferSize_ef; i++)

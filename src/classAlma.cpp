@@ -11,42 +11,77 @@ private:
     int frameBufferSize_ef;
     int minAng = 0;
     int maxAng = 359;
+    void uint8Rango(int &val);
+    FastNoiseLite insideWarp;
+    classFrame &algo;
 
 public:
     std::vector<int> hueEffecto;
     std::vector<int> saturationEffecto;
     std::vector<int> valueEffecto;
 
-    void setAlmaNoiseTo(classFrame algo, FastNoiseLite objetoNs, std::vector<int> &vec, int mapTo);
+    std::vector<int> hueNoise;
+    std::vector<int> saturationNoise;
+    std::vector<int> valueNoise;
 
-    void setAlmaFade(classFrame algo, std::vector<int> &vec, int from, int to);
-    void setAlmaTo(classFrame algo, std::vector<int> &vec, int to);
-    void setAlmaRingsFade(classFrame algo, std::vector<int> &vec, int from, int to);
-    void setAlmaRingTo(classFrame algo, std::vector<int> &vec, int ring, int to);
+    void setNoiseWarp(FastNoiseLite::DomainWarpType domainType, float amp, float frec);
+    void setAlmaNoiseTo(FastNoiseLite objetoNs, std::vector<int> &vec, int mapTo);
+
+    void setAlmaFade(std::vector<int> &vec, int from, int to);
+    void setAlmaTo(std::vector<int> &vec, int to);
+    void setAlmaRingsFade(std::vector<int> &vec, int from, int to);
+    void setAlmaRingTo(std::vector<int> &vec, int ring, int to);
 
     void desplazoAngulo(int angulo);
 
-    void writeToFrame(classFrame &algo);
+    void writeToFrame();
 
-    classAlma(classFrame algo);
+    classAlma(classFrame &algo);
     ~classAlma();
 };
 
-classAlma::classAlma(classFrame algo)
+classAlma::classAlma(classFrame &algooo) : algo(algooo)
 {
     frameBufferSize_ef = algo.getFrameBufferSize();
-    hueEffecto.resize(frameBufferSize_ef, -1);
-    saturationEffecto.resize(frameBufferSize_ef, -1);
-    valueEffecto.resize(frameBufferSize_ef, -1);
+    hueEffecto.resize(frameBufferSize_ef, 0);
+    saturationEffecto.resize(frameBufferSize_ef, 0);
+    valueEffecto.resize(frameBufferSize_ef, 0);
+    hueNoise.resize(frameBufferSize_ef, 0);
+    saturationNoise.resize(frameBufferSize_ef, 0);
+    valueNoise.resize(frameBufferSize_ef, 0);
+    insideWarp.SetSeed(random(0, 2000));
 }
 
-void classAlma::writeToFrame(classFrame &algo)
+void classAlma::uint8Rango(int &val)
 {
+    if (val > 255)
+    {
+        val = 255;
+    }
+    if (val < 0)
+    {
+        val = 0;
+    }
+}
+
+void classAlma::writeToFrame()
+{
+    int hue_CA_WTF = 0;
+    int sat_CA_WTF = 0;
+    int val_CA_WTF = 0;
     for (int i = 0; i < frameBufferSize_ef; i++)
     {
-        algo.setHueFromAdress(i, hueEffecto[i]);
-        algo.setSatFromAdress(i, saturationEffecto[i]);
-        algo.setValFromAdress(i, valueEffecto[i]);
+        hue_CA_WTF = hueEffecto[i] + hueNoise[i];
+        sat_CA_WTF = saturationEffecto[i] + saturationNoise[i];
+        val_CA_WTF = valueEffecto[i] + valueNoise[i];
+
+        uint8Rango(hue_CA_WTF);
+        uint8Rango(sat_CA_WTF);
+        uint8Rango(val_CA_WTF);
+
+        algo.setHueFromAdress(i, hue_CA_WTF);
+        algo.setSatFromAdress(i, sat_CA_WTF);
+        algo.setValFromAdress(i, val_CA_WTF);
     }
 }
 
@@ -72,7 +107,7 @@ void classAlma::desplazoAngulo(int angulo)
     }
 }
 
-void classAlma::setAlmaRingTo(classFrame algo, std::vector<int> &vec, int ring, int to)
+void classAlma::setAlmaRingTo(std::vector<int> &vec, int ring, int to)
 {
     for (int i = 0; i < frameBufferSize_ef; i++)
     {
@@ -83,7 +118,7 @@ void classAlma::setAlmaRingTo(classFrame algo, std::vector<int> &vec, int ring, 
     }
 }
 
-void classAlma::setAlmaRingsFade(classFrame algo, std::vector<int> &vec, int from, int to)
+void classAlma::setAlmaRingsFade(std::vector<int> &vec, int from, int to)
 {
     int maxRad = algo.getMaxRadioValido();
     int minRad = algo.getMinRadio();
@@ -140,7 +175,7 @@ void classAlma::setAlmaRingsFade(classFrame algo, std::vector<int> &vec, int fro
     }
 }
 
-void classAlma::setAlmaFade(classFrame algo, std::vector<int> &vec, int from, int to)
+void classAlma::setAlmaFade(std::vector<int> &vec, int from, int to)
 {
     int angulo_i = 0;
     int angulo_im = 0;
@@ -193,7 +228,7 @@ void classAlma::setAlmaFade(classFrame algo, std::vector<int> &vec, int from, in
     }
 }
 
-void classAlma::setAlmaTo(classFrame algo, std::vector<int> &vec, int to)
+void classAlma::setAlmaTo(std::vector<int> &vec, int to)
 {
     int angulo_i = 0;
     int angulo_im = 0;
@@ -244,32 +279,30 @@ void classAlma::setAlmaTo(classFrame algo, std::vector<int> &vec, int to)
     }
 }
 
-void classAlma::setAlmaNoiseTo(classFrame algo, FastNoiseLite objetoNs, std::vector<int> &vec, int mapTo)
+void classAlma::setNoiseWarp(FastNoiseLite::DomainWarpType domainType, float amp, float frec)
+{
+    insideWarp.SetFrequency(frec);
+    insideWarp.SetDomainWarpType(domainType);
+    insideWarp.SetDomainWarpAmp(amp);
+}
+
+void classAlma::setAlmaNoiseTo(FastNoiseLite objetoNs, std::vector<int> &vec, int mapTo)
 {
     float valX = 0;
     float valY = 0;
     float val = 0;
-    int valToWirite = 0;
+    int val_int = 0;
+
     for (int i = 0; i < frameBufferSize_ef; i++)
     {
         valX = algo.getXFromAdress(i) / 10.0f;
         valY = algo.getYFromAdress(i) / 10.0f;
-        objetoNs.DomainWarp(valX, valY);
+        insideWarp.DomainWarp(valX, valY);
         val = objetoNs.GetNoise(valX, valY);
         val = val * mapTo;
-        valToWirite = val + vec[i];
-        if (valToWirite > 255)
-        {
-            vec[i] = 255;
-        }
-        else if (valToWirite < 0)
-        {
-            vec[i] = 0;
-        }
-        else
-        {
-            vec[i] = valToWirite;
-        }
+        val_int = val;
+        uint8Rango(val_int);
+        vec[i] = val;
     }
 }
 
