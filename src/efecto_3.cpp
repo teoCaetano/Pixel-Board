@@ -14,7 +14,6 @@
 void efecto3()
 {
 
-  classAlma alma1(algoo);
   alma1.setAlmaTo(alma1.saturationEffecto, 250);
   alma1.setAlmaTo(alma1.valueEffecto, 250);
 

@@ -14,7 +14,6 @@ void efecto1()
 {
 
     int ranSeed = random(0,2000);
-    classAlma alma1(algoo);
     alma1.setAlmaTo(alma1.saturationEffecto, 250);
     alma1.setAlmaTo(alma1.valueEffecto, 250);
     alma1.setNoiseWarpSeed(500);

@@ -4,17 +4,14 @@
  * This code is made for circular efects using HSV propieties and a litle bit of polar coordinates in NEOPIXEl matrix
  *
  * some considerations
- *  -this code is meant to be usable in wierd type matrix like a round one, ore one were the pixels are multiple leds and in a not symetric way 
- *  -this code asumes that data or START of your matrix is at the top 
+ *  -this code is meant to be usable in wierd type matrix like a round one, ore one were the pixels are multiple leds and in a not symetric way
+ *  -this code asumes that data or START of your matrix is at the top
  *  -you define your config at config.h
  *  -if your matrix is custom you still need your values of HEIGHT an WIDHT in PIXELSSS!
  *
  * @author Teo caetano
  * @version 0.1
  */
-
-
-
 
 #ifndef MAIN_H
 #define MAIN_H
@@ -24,6 +21,7 @@
 #include <vector>
 #include "config.h"
 #include "classFrame.h"
+#include "classAlma.h"
 
 #define ROJO 0
 #define NARANJA 32
@@ -33,7 +31,6 @@
 #define AZUL 160
 #define PURPURA 192
 #define ROSA 224
-
 
 extern int br;
 extern int newBr;
@@ -46,17 +43,20 @@ extern uint8_t lienzoSaturacion[FRAME_BUFFER_SIZE];
 extern uint8_t lienzoValue[FRAME_BUFFER_SIZE];
 
 extern classFrame algoo;
+extern classAlma alma1;
 
-enum Efectos {
+enum Efectos
+{
     NINGUNO,
     EFECTO1,
     EFECTO2,
-    EFECTO3
+    EFECTO3,
+    EFECTO4
 };
 
 extern enum Efectos Efecto;
 
-void serialCheck(); 
+void serialCheck();
 void subirSpeed();
 void bajarSpeed();
 void subirBrillo();

@@ -14,7 +14,6 @@
 void efecto2()
 {
 
-    classAlma alma1(algoo);
     alma1.setAlmaTo(alma1.saturationEffecto, 0);
     alma1.setAlmaTo(alma1.valueEffecto, 0);
 
@@ -67,9 +66,25 @@ void efecto2()
             {
                 transit.showFillallIn(frame);
             }
+            if (frame > 10)
+            {
+                flagHue = true;
+            }
+            if (frame < 0)
+            {
+                flagHue = false;
+            }
+
             if (subFrame < 10)
             {
-                subFrame++;
+                if (flagHue == false)
+                {
+                    subFrame++;
+                }
+                if (flagHue == true)
+                {
+                    subFrame--;
+                }
             }
             if (subFrame == 10)
             {
@@ -82,7 +97,6 @@ void efecto2()
         noise.SetFrequency(1.1f);
         noise2.SetFrequency(1.1f);
 
-        alma1.setAlmaTo(alma1.hueEffecto, hue);
         alma1.setNoiseWarp(FastNoiseLite::DomainWarpType_BasicGrid, sumFloat, 0);
         alma1.setAlmaNoiseTo(noise, alma1.valueNoise, 30);
         alma1.setAlmaNoiseTo(noise2, alma1.saturationNoise, 30);
