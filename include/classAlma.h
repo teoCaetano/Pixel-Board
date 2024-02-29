@@ -35,7 +35,7 @@ public:
     //---------------------------------------------------------------------------------
     // Funciones Noise
     //---------------------------------------------------------------------------------
-
+    void setNoiseWarpSeed(int seed);
     /*
      @brief toma como parametro los valores para configurar insideWarp
      @param{FastNoiseLite::DomainWarpType} domainType define el tipo del warp
@@ -44,17 +44,49 @@ public:
     */
     void setNoiseWarp(FastNoiseLite::DomainWarpType domainType, float amp, float frec);
     /*
-
+     @brief toma el ruido de el objetoNs lo pasa por el DomainWarp lo multiplica por mapTo y lo escrive al vector vec
+     @param{FastNoiseLite} objetoNs - es el objeto con el ruido
+     @param{std::vector<int>} vec - es el vector al cual escribo el ruido
+     @param{int} mapTo - el valor por el cual multiplico el ruido(el ruido es un valor de -1 a +1)
     */
     void setAlmaNoiseTo(FastNoiseLite objetoNs, std::vector<int> &vec, int mapTo);
-
+    /*
+     @brief genera un fade entre los angulos
+     @param{std::vector<int>} vec - el vector al cual almaceno los valores del fade
+     @param{int} from - el valor inicial del fade
+     @param{int} to - el valor final del fade
+    */
+    //---------------------------------------------------------------------------------
+    // Funciones Alma
+    //---------------------------------------------------------------------------------
     void setAlmaFade(std::vector<int> &vec, int from, int to);
+    /*
+     @brief setea un array a un valor especifico
+     @param{std::vector<int>} vec - vector en el cual escribo to
+     @param{int}to - valor a escribir
+    */
     void setAlmaTo(std::vector<int> &vec, int to);
+    /*
+     @brief genera un fade con respecto a los anillos
+     @param{std::vector<int>} vec - el vector al cual almaceno los valores del fade
+     @param{int} from - el valor inicial del fade
+     @param{int} to - el valor final del fade
+    */
     void setAlmaRingsFade(std::vector<int> &vec, int from, int to);
+    /*
+     @brief setea un anillo a un valor especifico
+     @param{std::vector<int>} vec - vector en el cual escribo to
+     @param{int}to - valor a escribir
+    */
     void setAlmaRingTo(std::vector<int> &vec, int ring, int to);
-
+    /*
+     @brief gira el efecto una cierta cantida de angulos
+     @param{int}angulo
+    */
     void desplazoAngulo(int angulo);
-
+    /*
+     @brief escribe los valores de los buffers del efecto a los buffers del frame ademas le suma los buffers con ruido
+    */
     void writeToFrame();
 
     classAlma(classFrame &algo);

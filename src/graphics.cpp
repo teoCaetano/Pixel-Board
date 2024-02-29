@@ -1,45 +1,59 @@
-#include "efectos.h"
 #include "graphics.h"
 #include "config.h"
 #include "main.h"
 
-CHSVPalette16 prueba1(
-    CHSV(0, 230, 250),
-    CHSV(20, 230, 250),
-    CHSV(40, 230, 250),
-    CHSV(60, 230, 250),
-    CHSV(80, 230, 250),
-    CHSV(100, 230, 250),
-    CHSV(120, 230, 250),
-    CHSV(140, 230, 250),
-    CHSV(160, 230, 250),
-    CHSV(180, 230, 250),
-    CHSV(200, 230, 250),
-    CHSV(220, 230, 250),
-    CHSV(240, 230, 250),
-    CHSV(0, 100, 250),
-    CHSV(20, 30, 250),
-    CHSV(40, 0, 250));
+void scaleInSteps(int &value, int from, int to, int steps)
+{
+  int absolut_restToVal;
+  int restToVal = to - value;
 
-CHSVPalette16 prueba3(
-    CHSV(255, 230, 250),
-    CHSV(0, 230, 250),
-    CHSV(0, 230, 250),
-    CHSV(0, 230, 250),
-    CHSV(20, 230, 250),
-    CHSV(20, 230, 250),
-    CHSV(30, 0, 250),
-    CHSV(40, 230, 250),
-    CHSV(40, 230, 250),
-    CHSV(30, 230, 250),
-    CHSV(20, 230, 250),
-    CHSV(20, 230, 250),
-    CHSV(0, 230, 250),
-    CHSV(0, 230, 250),
-    CHSV(0, 230, 250),
-    CHSV(255, 230, 250));
+  int absolut_pieceOfRange;
+  int range = to - from;
+  int pieceOfRange;
 
-CHSV prueba2;
+  // this part checks if value is in the range of FROM and TO and
+  bool enableFunction = ((value >= from) && (value < to)) || ((value <= from) && (value > to));
+  bool restoRange = ((range % steps) == 0);
+  if (from == to)
+  {
+    enableFunction = false;
+  }
+
+  if (enableFunction && restoRange)
+  {
+    pieceOfRange = range / steps;
+    value = value + pieceOfRange;
+  }
+  if (enableFunction && !restoRange)
+  {
+    pieceOfRange = range / (steps - 1);
+    absolut_pieceOfRange = abs(pieceOfRange);
+    absolut_restToVal = abs(restToVal);
+    if (absolut_restToVal < absolut_pieceOfRange)
+    {
+      value = value + restToVal;
+    }
+    else
+    {
+      value = value + pieceOfRange;
+    }
+  }
+}
+
+// interesante implementar esta funcion como metodo de classframe para hacer corecion en pixeles individuales cuando sea necesario
+void updatePixel(int pixel, int hue, int sat, int val)
+{
+  if (val < 0)
+    val = 0;
+  else if (val > 255)
+    val = 255;
+  if (pixel >= 0 && pixel < FRAME_BUFFER_SIZE)
+  {
+    frameBuffer[pixel][0] = hue;
+    frameBuffer[pixel][1] = sat;
+    frameBuffer[pixel][2] = val;
+  }
+}
 
 void clearFrameBuffer()
 {
@@ -98,9 +112,6 @@ void updateLeds()
         leds[pixelLed + i] = CHSV(h, s, v);
       }
     }
-    uint8_t h = frameBuffer[n][0];
-    uint8_t s = frameBuffer[n][1];
-    uint8_t v = frameBuffer[n][2];
   }
   if (newBr != br)
   {

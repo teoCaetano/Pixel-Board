@@ -18,13 +18,11 @@
 
 #ifndef MAIN_H
 #define MAIN_H
+
 #include <Arduino.h>
 #include <FastLED.h>
 #include <vector>
-#include "efectos.h"
-#include "graphics.h"
 #include "config.h"
-#include "pixeltypes.h"
 #include "classFrame.h"
 
 #define ROJO 0
@@ -49,6 +47,14 @@ extern uint8_t lienzoValue[FRAME_BUFFER_SIZE];
 
 extern classFrame algoo;
 
+enum Efectos {
+    NINGUNO,
+    EFECTO1,
+    EFECTO2,
+    EFECTO3
+};
+
+extern enum Efectos Efecto;
 
 void serialCheck(); 
 void subirSpeed();
@@ -59,4 +65,4 @@ void bajarBrillo();
 extern uint8_t frameBuffer[FRAME_BUFFER_SIZE][3];
 extern CRGB leds[NUM_LEDS];
 
-#endif
+#endif // MAIN_H

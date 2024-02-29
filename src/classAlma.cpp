@@ -25,11 +25,13 @@ public:
     std::vector<int> valueNoise;
 
     void setNoiseWarp(FastNoiseLite::DomainWarpType domainType, float amp, float frec);
+    void setNoiseWarpSeed(int seed);
     void setAlmaNoiseTo(FastNoiseLite objetoNs, std::vector<int> &vec, int mapTo);
 
     void setAlmaFade(std::vector<int> &vec, int from, int to);
     void setAlmaTo(std::vector<int> &vec, int to);
     void setAlmaRingsFade(std::vector<int> &vec, int from, int to);
+    // setea el anillo a to
     void setAlmaRingTo(std::vector<int> &vec, int ring, int to);
 
     void desplazoAngulo(int angulo);
@@ -277,6 +279,11 @@ void classAlma::setAlmaTo(std::vector<int> &vec, int to)
             }
         }
     }
+}
+
+void classAlma::setNoiseWarpSeed(int seed)
+{
+    insideWarp.SetSeed(seed);
 }
 
 void classAlma::setNoiseWarp(FastNoiseLite::DomainWarpType domainType, float amp, float frec)

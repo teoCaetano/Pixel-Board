@@ -1,7 +1,9 @@
 #include <Arduino.h>
 #include <FastLED.h>
 #include "config.h"
-#include "efectos.h"
+#include "efecto_1.h"
+#include "efecto_2.h"
+#include "efecto_3.h"
 #include "graphics.h"
 #include "main.h"
 #include "classFrame.h"
@@ -15,7 +17,9 @@ uint8_t frameBuffer[FRAME_BUFFER_SIZE][3];
 int frame2PixelLedMap[FRAME_BUFFER_SIZE];
 int ledsPerPixel_prueba[FRAME_BUFFER_SIZE];
 
-classFrame algoo(HEIGHT,WIDTH);
+classFrame algoo(HEIGHT, WIDTH);
+
+enum Efectos Efecto = EFECTO3;
 
 void setup()
 {
@@ -45,7 +49,23 @@ void setup()
 
 void loop()
 {
-  efecto3();
+  switch (Efecto)
+  {
+  case EFECTO1:
+    Serial.println("efecto 1");
+    efecto1();
+    break;
+  case EFECTO2:
+    Serial.println("efecto 2");
+    efecto2();
+    break;
+  case EFECTO3:
+    Serial.println("efecto 3");
+    efecto3();
+    break;
+  default:
+    break;
+  }
 }
 
 void serialCheck()
@@ -62,6 +82,12 @@ void serialCheck()
       subirBrillo();
     else if (ch == 'a')
       bajarBrillo();
+    else if (ch == '1')
+      Efecto = EFECTO1;
+    else if (ch == '2')
+      Efecto = EFECTO2;
+    else if (ch == '3')
+      Efecto = EFECTO3;
   }
 }
 
@@ -97,5 +123,3 @@ void bajarBrillo()
     b = 10;
   newBr = b;
 }
-
-
