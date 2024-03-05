@@ -39,7 +39,31 @@ private:
     std::vector<int> mem_val_ring_3 = {50,   10,    0,   0,   0,   0,   0,   0,   0,  10,  50};
     std::vector<int> mem_val_ring_2 = {10,    0,    0,   0,   0,   0,   0,   0,   0,   0,  10};
     std::vector<int> mem_val_ring_1 = {0,     0,    0,   0,   0,   0,   0,   0,   0,   0,   0};
+    
+    int act_val_ring_10 = mem_val_ring_10[0];
+    int act_val_ring_9 = mem_val_ring_9[0];
+    int act_val_ring_8 = mem_val_ring_8[0];
+    int act_val_ring_7 = mem_val_ring_7[0];
+    int act_val_ring_6 = mem_val_ring_6[0];
+    int act_val_ring_5 = mem_val_ring_5[0];
+    int act_val_ring_4 = mem_val_ring_4[0];
+    int act_val_ring_3 = mem_val_ring_3[0];
+    int act_val_ring_2 = mem_val_ring_2[0];
+    int act_val_ring_1 = mem_val_ring_1[0];
 
+    int act_sat_ring_10 = mem_sat_ring_10[0];
+    int act_sat_ring_9 = mem_sat_ring_9[0];
+    int act_sat_ring_8 = mem_sat_ring_8[0];
+    int act_sat_ring_7 = mem_sat_ring_7[0];
+    int act_sat_ring_6 = mem_sat_ring_6[0];
+    int act_sat_ring_5 = mem_sat_ring_5[0];
+    int act_sat_ring_4 = mem_sat_ring_4[0];
+    int act_sat_ring_3 = mem_sat_ring_3[0];
+    int act_sat_ring_2 = mem_sat_ring_2[0];
+    int act_sat_ring_1 = mem_sat_ring_1[0];
+
+    int mem_frame = 0;
+    int act_frame = 0;
 
 public:
     classTransition(classFrame &algoo, classAlma &alma);
@@ -50,30 +74,7 @@ classTransition::classTransition(classFrame &algoo, classAlma &alma) : objetoFra
 
 void classTransition::showFillallIn(int frame)
 {
-    static int act_val_ring_10 = mem_val_ring_10[0];
-    static int act_val_ring_9 = mem_val_ring_9[0];
-    static int act_val_ring_8 = mem_val_ring_8[0];
-    static int act_val_ring_7 = mem_val_ring_7[0];
-    static int act_val_ring_6 = mem_val_ring_6[0];
-    static int act_val_ring_5 = mem_val_ring_5[0];
-    static int act_val_ring_4 = mem_val_ring_4[0];
-    static int act_val_ring_3 = mem_val_ring_3[0];
-    static int act_val_ring_2 = mem_val_ring_2[0];
-    static int act_val_ring_1 = mem_val_ring_1[0];
 
-    static int act_sat_ring_10 = mem_sat_ring_10[0];
-    static int act_sat_ring_9 = mem_sat_ring_9[0];
-    static int act_sat_ring_8 = mem_sat_ring_8[0];
-    static int act_sat_ring_7 = mem_sat_ring_7[0];
-    static int act_sat_ring_6 = mem_sat_ring_6[0];
-    static int act_sat_ring_5 = mem_sat_ring_5[0];
-    static int act_sat_ring_4 = mem_sat_ring_4[0];
-    static int act_sat_ring_3 = mem_sat_ring_3[0];
-    static int act_sat_ring_2 = mem_sat_ring_2[0];
-    static int act_sat_ring_1 = mem_sat_ring_1[0];
-
-    static int mem_frame = 0;
-    static int act_frame = 0;
     if ((frame >= 1) && (frame <= 10))
     {
         if (act_frame != frame)
