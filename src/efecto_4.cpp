@@ -49,8 +49,9 @@ void efecto4()
     unsigned int reloj = millis();
     unsigned int relojNoise = millis();
     unsigned int relojTimeStop = millis();
-    
-    bool flagHue = false;    
+
+    bool flagTimeStop = false;
+    bool flagHue = false;
     int hue = 0;
     int hueFuturo = 20;
 
@@ -63,28 +64,35 @@ void efecto4()
     {
         if (millis() > reloj + 100)
         {
-            if (flagHue == false)
+            if (flagTimeStop == true)
             {
                 hue = hue + 1;
-                sumFloat += 0.01;
+                if (hue > 255)
+                {
+                    hue = 0;
+                }
             }
-            if (hue > 255 && flagHue == false)
+            if (hue == hueFuturo)
             {
-                hue = 0;
-                flagHue = true;
+                flagTimeStop = false;
             }
-            if (flagHue == true)
-            {
-                hue -= 1;
-                sumFloat -= 0.01;
-            }
-            if (hue < 0 && flagHue == true)
-            {
-                flagHue = false;
-            }
+
             reloj = millis();
         }
+        if (millis() > relojTimeStop + 20000)
+        {
+            if ((255 - hue) < 20)
+            {
+                hueFuturo = 20 - (255 - hue);
+            }
+            else
+            {
+                hueFuturo = hue + 20;
+            }
 
+            flagTimeStop = true;
+            relojTimeStop = millis();
+        }
         if (millis() > relojNoise + 100)
         {
             if (flagFloat == false)
