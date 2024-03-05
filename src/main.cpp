@@ -5,6 +5,7 @@
 #include "efecto_2.h"
 #include "efecto_3.h"
 #include "efecto_4.h"
+#include "efecto_5.h"
 #include "graphics.h"
 #include "main.h"
 #include "classFrame.h"
@@ -20,7 +21,6 @@ int ledsPerPixel_prueba[FRAME_BUFFER_SIZE];
 
 classFrame algoo(HEIGHT, WIDTH);
 classAlma alma1(algoo);
-
 
 enum Efectos Efecto = EFECTO3;
 
@@ -69,6 +69,9 @@ void loop()
   case EFECTO4:
     Serial.println("efecto 4");
     efecto4();
+  case EFECTO5:
+    Serial.println("efecto 5");
+    efecto5();
     break;
   default:
     break;
@@ -97,6 +100,8 @@ void serialCheck()
       Efecto = EFECTO3;
     else if (ch == '4')
       Efecto = EFECTO4;
+    else if (ch == '5')
+      Efecto = EFECTO5;
   }
 }
 
