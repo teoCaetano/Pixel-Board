@@ -1,5 +1,5 @@
-#ifndef CLASSTRANSITION_H
-#define CLASSTRANSITION_H
+#ifndef CLASSTRANSITION_1_H
+#define CLASSTRANSITION_1_H
 
 #include <vector>
 #include <algorithm>
@@ -7,7 +7,7 @@
 #include "classAlma.h"
 #include "classArco.h"
 
-class classTransition
+class classTransition1
 {
 private:
     classFrame &objetoFrame;
@@ -64,7 +64,7 @@ private:
     int act_frame = 0;
 
 public:
-    classTransition(classFrame &algoo, classAlma &alma);
+    classTransition1(classFrame &algoo, classAlma &alma);
     void showFillallIn(int frame);
 };
 

@@ -22,6 +22,8 @@
 #include "config.h"
 #include "classFrame.h"
 #include "classAlma.h"
+#include "FastNoiseLite.h"
+
 
 #define ROJO 0
 #define NARANJA 32
@@ -44,7 +46,8 @@ extern uint8_t lienzoValue[FRAME_BUFFER_SIZE];
 
 extern classFrame algoo;
 extern classAlma alma1;
-
+extern FastNoiseLite noise;
+extern FastNoiseLite noise2;
 enum Efectos
 {
     NINGUNO,
@@ -52,7 +55,8 @@ enum Efectos
     EFECTO2,
     EFECTO3,
     EFECTO4,
-    EFECTO5
+    EFECTO5,
+    EFECTO6
 };
 
 extern enum Efectos Efecto;

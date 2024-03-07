@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <FastLED.h>
-#include "efecto_2.h"
+#include "efecto_6.h"
 #include "graphics.h"
 #include "config.h"
 #include "main.h"
@@ -11,7 +11,7 @@
 #include "FastNoiseLite.h"
 
 // LIENZO ROTAR
-void efecto2()
+void efecto6()
 {
 
     alma1.setAlmaRingTo(alma1.valueEffecto, 10, 255);
@@ -40,10 +40,9 @@ void efecto2()
 
     classTransition1 transit(algoo, alma1);
 
-
     unsigned int relojNoise = millis();
     unsigned int relojTransicion1 = millis();
-    
+
     int frame = 1;
     int subFrame = 0;
 
@@ -52,8 +51,11 @@ void efecto2()
 
     bool flagEfecto2 = false;
 
+    float inputSeno = 0;
+    float valueSeno = 0;
+
     // efect loop
-    while (Efecto == EFECTO2)
+    while (Efecto == EFECTO6)
     {
         if (millis() > relojNoise + 100)
         {
@@ -78,36 +80,17 @@ void efecto2()
 
         if (millis() > relojTransicion1 + 80)
         {
-            if (frame <= 10)
-            {
-                transit.showFillallIn(frame);
-            }
-            if (frame > 10)
-            {
-                flagEfecto2 = true;
-                Efecto = EFECTO3;
-            }
-            if (frame < 0)
-            {
-                flagEfecto2 = false;
-            }
-
-            if (subFrame < 10)
-            {
-                if (flagEfecto2 == false)
-                {
-                    subFrame++;
-                }
-                if (flagEfecto2 == true)
-                {
-                    subFrame--;
-                }
-            }
+            subFrame++;
+            inputSeno = inputSeno + 0.1;
             if (subFrame == 10)
             {
                 subFrame = 0;
-                frame++;
+                valueSeno = sin(inputSeno);
+                valueSeno = valueSeno + 1;
+                valueSeno = valueSeno * 3;
+                valueSeno = valueSeno -1;
             }
+            transit.showFillallIn(int(valueSeno));
             relojTransicion1 = millis();
         }
 

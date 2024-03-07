@@ -6,9 +6,11 @@
 #include "efecto_3.h"
 #include "efecto_4.h"
 #include "efecto_5.h"
+#include "efecto_6.h"
 #include "graphics.h"
 #include "main.h"
 #include "classFrame.h"
+#include "FastNoiseLite.h"
 
 int br = BRIGHTNESS;
 int newBr = br;
@@ -22,10 +24,15 @@ int ledsPerPixel_prueba[FRAME_BUFFER_SIZE];
 classFrame algoo(HEIGHT, WIDTH);
 classAlma alma1(algoo);
 
+FastNoiseLite noise;
+
+FastNoiseLite noise2;
+
 enum Efectos Efecto = EFECTO3;
 
 void setup()
 {
+
   Serial.begin(115200);
   algoo.constructorXY();
   algoo.constructorPolar();
@@ -37,6 +44,9 @@ void setup()
   FastLED.setBrightness(br);
   FastLED.clear();
   FastLED.show(); // display this frame
+  noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2S);
+  noise2.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+  noise2.SetSeed(1231);
   delay(200);
   clearFrameBuffer();
   xTaskCreatePinnedToCore(
@@ -72,6 +82,9 @@ void loop()
   case EFECTO5:
     Serial.println("efecto 5");
     efecto5();
+  case EFECTO6:
+    Serial.println("efecto 6");
+    efecto6();
     break;
   default:
     break;
@@ -102,6 +115,8 @@ void serialCheck()
       Efecto = EFECTO4;
     else if (ch == '5')
       Efecto = EFECTO5;
+    else if (ch == '6')
+      Efecto = EFECTO6;
   }
 }
 

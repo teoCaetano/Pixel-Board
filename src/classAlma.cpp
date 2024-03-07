@@ -9,8 +9,12 @@ class classAlma
 {
 private:
     int frameBufferSize_ef;
+    int bufferHue = 0;
+    float bufferAmplitud = 0;
     int minAng = 0;
     int maxAng = 359;
+    float valX = 0;
+    float valY = 0;
     void uint8Rango(int &val);
     FastNoiseLite insideWarp;
     classFrame &algo;
@@ -35,6 +39,12 @@ public:
     void setAlmaRingTo(std::vector<int> &vec, int ring, int to);
 
     void desplazoAngulo(int angulo);
+
+    void setBufferHue(int hue);
+    int getBufferHue();
+
+    void setBufferAmplitud(float amplitud);
+    float getBufferAmplitud();
 
     void writeToFrame();
 
@@ -295,8 +305,7 @@ void classAlma::setNoiseWarp(FastNoiseLite::DomainWarpType domainType, float amp
 
 void classAlma::setAlmaNoiseTo(FastNoiseLite objetoNs, std::vector<int> &vec, int mapTo)
 {
-    float valX = 0;
-    float valY = 0;
+
     float val = 0;
     int val_int = 0;
 
@@ -311,6 +320,32 @@ void classAlma::setAlmaNoiseTo(FastNoiseLite objetoNs, std::vector<int> &vec, in
         uint8Rango(val_int);
         vec[i] = val;
     }
+}
+
+void classAlma::setBufferHue(int hue)
+{
+    if ((hue <= 255) && (hue >= 0))
+    {
+        bufferHue = hue;
+    }
+}
+
+int classAlma::getBufferHue()
+{
+    return bufferHue;
+}
+
+void classAlma::setBufferAmplitud(float amplitud)
+{
+    if ((amplitud <= 2.55) && (amplitud >= 0))
+    {
+        bufferAmplitud = amplitud;
+    }
+}
+
+float classAlma::getBufferAmplitud()
+{
+    return bufferAmplitud;
 }
 
 classAlma::~classAlma()

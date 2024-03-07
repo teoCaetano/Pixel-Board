@@ -12,6 +12,10 @@ private:
     int frameBufferSize_ef;
     int minAng = 0;
     int maxAng = 359;
+    int bufferHue = 0;
+    float bufferAmplitud = 0;
+    float valX = 0;
+    float valY = 0;
     // @brief recive un valor y lo mantiene el el rango 0 a 255
     // @param{int} val valor a restringir
     void uint8Rango(int &val);
@@ -87,6 +91,12 @@ public:
     /*
      @brief escribe los valores de los buffers del efecto a los buffers del frame ademas le suma los buffers con ruido
     */
+    void setBufferHue(int hue);
+    int getBufferHue();
+
+    void setBufferAmplitud(float amplitud);
+    float getBufferAmplitud();
+
     void writeToFrame();
 
     classAlma(classFrame &algo);

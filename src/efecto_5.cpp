@@ -4,7 +4,6 @@
 #include "graphics.h"
 #include "config.h"
 #include "main.h"
-#include "classTransition.h"
 #include "classArco.h"
 #include "classFrame.h"
 #include "classAlma.h"
@@ -16,13 +15,6 @@ void efecto5()
 
     alma1.setAlmaTo(alma1.saturationEffecto, 250);
     alma1.setAlmaTo(alma1.valueEffecto, 250);
-
-    FastNoiseLite noise;
-    noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2S);
-
-    FastNoiseLite noise2;
-    noise2.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
-    noise2.SetSeed(1231);
 
     alma1.setAlmaRingTo(alma1.valueEffecto, 10, 255);
     alma1.setAlmaRingTo(alma1.valueEffecto, 9, 250);
@@ -56,8 +48,8 @@ void efecto5()
     int hueFuturo = 20;
 
     bool flagFloat = false;
-    float sumFloat = 0.1;
-    int limiteFloat = 500;
+    float sumFloat = 0.01;
+
 
     // efect loop
     while (Efecto == EFECTO5)
@@ -97,19 +89,17 @@ void efecto5()
         {
             if (flagFloat == false)
             {
-                limiteFloat++;
                 sumFloat += 0.01;
             }
-            if (limiteFloat > 500 && flagFloat == false)
+            if (sumFloat >= 2.55 && flagFloat == false)
             {
                 flagFloat = true;
             }
             if (flagFloat == true)
             {
-                limiteFloat--;
                 sumFloat -= 0.01;
             }
-            if (limiteFloat < 0 && flagFloat == true)
+            if (sumFloat >= 2.55 && flagFloat == true)
             {
                 flagFloat = false;
             }

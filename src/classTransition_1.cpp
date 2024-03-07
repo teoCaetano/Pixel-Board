@@ -9,7 +9,7 @@
 
 
 
-class classTransition
+class classTransition1
 {
 private:
     classFrame &objetoFrame;
@@ -25,8 +25,8 @@ private:
     std::vector<int> mem_sat_ring_6 = {140, 200, 210, 215, 215,   0, 215, 215, 210, 200, 140};
     std::vector<int> mem_sat_ring_5 = {200, 215, 215, 215,   0,   0,   0, 215, 215, 215, 200};
     std::vector<int> mem_sat_ring_4 = {215, 215, 215,   0,   0,   0,   0,   0, 215, 215, 215};
-    std::vector<int> mem_sat_ring_3 = {215, 215,   0,   0,   0,   0,   0,   0,   0, 215, 215};
-    std::vector<int> mem_sat_ring_2 = {215,   0,   0,   0,   0,   0,   0,   0,   0,   0, 215};
+    std::vector<int> mem_sat_ring_3 = {215, 215,   0,   0,   0,   0,   0,   0,   0, 215, 180};
+    std::vector<int> mem_sat_ring_2 = {215,   0,   0,   0,   0,   0,   0,   0,   0,   0, 180};
     std::vector<int> mem_sat_ring_1 = {0 ,    0,   0,   0,   0,   0,   0,   0,   0,   0,   0};
 
     std::vector<int> mem_val_ring_10 = {250, 250, 245, 225, 200, 140, 200, 225, 245, 250, 250};
@@ -66,13 +66,13 @@ private:
     int act_frame = 0;
 
 public:
-    classTransition(classFrame &algoo, classAlma &alma);
+    classTransition1(classFrame &algoo, classAlma &alma);
     void showFillallIn(int frame);
 };
 
-classTransition::classTransition(classFrame &algoo, classAlma &alma) : objetoFrame(algoo), objetoAlma(alma) {}
+classTransition1::classTransition1(classFrame &algoo, classAlma &alma) : objetoFrame(algoo), objetoAlma(alma) {}
 
-void classTransition::showFillallIn(int frame)
+void classTransition1::showFillallIn(int frame)
 {
 
     if ((frame >= 1) && (frame <= 10))

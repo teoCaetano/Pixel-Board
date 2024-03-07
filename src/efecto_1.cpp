@@ -4,7 +4,6 @@
 #include "graphics.h"
 #include "config.h"
 #include "main.h"
-#include "classTransition.h"
 #include "classArco.h"
 #include "classFrame.h"
 #include "classAlma.h"
@@ -17,13 +16,6 @@ void efecto1()
     alma1.setAlmaTo(alma1.saturationEffecto, 250);
     alma1.setAlmaTo(alma1.valueEffecto, 250);
     alma1.setNoiseWarpSeed(500);
-
-    FastNoiseLite noise;
-    noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2S);
-
-    FastNoiseLite noise2;
-    noise2.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
-    noise2.SetSeed(1231);
 
     alma1.setAlmaRingTo(alma1.valueEffecto, 10, 150);
     alma1.setAlmaRingTo(alma1.valueEffecto, 9, 100);

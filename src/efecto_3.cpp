@@ -4,7 +4,6 @@
 #include "graphics.h"
 #include "config.h"
 #include "main.h"
-#include "classTransition.h"
 #include "classArco.h"
 #include "classFrame.h"
 #include "classAlma.h"
@@ -16,13 +15,6 @@ void efecto3()
 
   alma1.setAlmaTo(alma1.saturationEffecto, 250);
   alma1.setAlmaTo(alma1.valueEffecto, 250);
-
-  FastNoiseLite noise;
-  noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2S);
-
-  FastNoiseLite noise2;
-  noise2.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
-  noise2.SetSeed(1231);
 
   alma1.setAlmaRingTo(alma1.valueEffecto, 10, 255);
   alma1.setAlmaRingTo(alma1.valueEffecto, 9, 250);
@@ -46,9 +38,13 @@ void efecto3()
   alma1.setAlmaRingTo(alma1.saturationEffecto, 2, 180);
   alma1.setAlmaRingTo(alma1.saturationEffecto, 1, 0);
 
-  unsigned int reloj = 0;
-  int hue = 0;
-  float sumFloat = 0.1;
+  unsigned int reloj = millis();
+  unsigned int relojNoise = millis();
+
+  bool flagFloat = false;
+  float sumFloat = alma1.getBufferAmplitud();
+
+  int hue = alma1.getBufferHue();
   bool flagHue = false;
 
   // efect loop
@@ -59,7 +55,6 @@ void efecto3()
       if (flagHue == false)
       {
         hue = hue + 1;
-        sumFloat += 0.01;
       }
       if (hue > 255 && flagHue == false)
       {
@@ -69,7 +64,6 @@ void efecto3()
       if (flagHue == true)
       {
         hue -= 1;
-        sumFloat -= 0.01;
       }
       if (hue < 0 && flagHue == true)
       {
@@ -77,9 +71,28 @@ void efecto3()
       }
       reloj = millis();
     }
+    if (millis() > relojNoise + 100)
+    {
+      if (flagFloat == false)
+      {
+        sumFloat += 0.01;
+      }
+      if (sumFloat >= 2.55 && flagFloat == false)
+      {
+        flagFloat = true;
+      }
+      if (flagFloat == true)
+      {
+        sumFloat -= 0.01;
+      }
+      if (sumFloat <= 0 && flagFloat == true)
+      {
+        flagFloat = false;
+      }
+      relojNoise = millis();
+    }
     noise.SetFrequency(1.1f);
     noise2.SetFrequency(1.1f);
-
 
     alma1.setAlmaTo(alma1.hueEffecto, hue);
     alma1.setNoiseWarp(FastNoiseLite::DomainWarpType_BasicGrid, sumFloat, 0);
@@ -88,6 +101,8 @@ void efecto3()
     algoo.clearBuffer();
     alma1.writeToFrame();
     algoo.updateFrameBuffer(frameBuffer);
+    alma1.setBufferHue(hue);
+    alma1.setBufferAmplitud(sumFloat);
     serialCheck();
   }
 }
