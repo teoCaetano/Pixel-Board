@@ -76,7 +76,7 @@ void efecto2()
             relojNoise = millis();
         }
 
-        if (millis() > relojTransicion1 + 80)
+        if (millis() > relojTransicion1 + 40)
         {
             if (frame <= 10)
             {

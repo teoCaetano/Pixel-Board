@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <FastLED.h>
-#include "efecto_6.h"
+#include "efecto_7.h"
 #include "graphics.h"
 #include "config.h"
 #include "main.h"
@@ -11,7 +11,7 @@
 #include "FastNoiseLite.h"
 
 // LIENZO ROTAR
-void efecto6()
+void efecto7()
 {
 
     alma1.setAlmaRingTo(alma1.valueEffecto, 10, 255);
@@ -55,7 +55,7 @@ void efecto6()
     float valueSeno = 0;
 
     // efect loop
-    while (Efecto == EFECTO6)
+    while (Efecto == EFECTO7)
     {
         if (millis() > relojNoise + 100)
         {
@@ -77,13 +77,14 @@ void efecto6()
             }
             relojNoise = millis();
         }
-        inputSeno = inputSeno + 0.02;
-        if (millis() > relojTransicion1 + 20)
+        inputSeno = inputSeno + 0.008;
+        if (millis() > relojTransicion1 + 30)
         {
-            valueSeno = sin(inputSeno);
-            valueSeno = valueSeno + 1.2;
-            valueSeno = valueSeno * 1.5;
+            valueSeno = sin(inputSeno) * sin(inputSeno * 1.2);
+            valueSeno = valueSeno + 1;
+            valueSeno = valueSeno * 2;
             Serial.println(int(valueSeno));
+
             transit.showFillallIn(int(valueSeno));
             relojTransicion1 = millis();
         }

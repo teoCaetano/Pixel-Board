@@ -75,7 +75,7 @@ classTransition1::classTransition1(classFrame &algoo, classAlma &alma) : objetoF
 void classTransition1::showFillallIn(int frame)
 {
 
-    if ((frame >= 1) && (frame <= 10))
+    if ((frame >= 0) && (frame <= 10))
     {
         if (act_frame != frame)
         {
@@ -113,7 +113,7 @@ void classTransition1::showFillallIn(int frame)
             act_val_ring_1 = mem_val_ring_1[mem_frame];
         }
 
-        Serial.println(frame);
+        //Serial.println(frame);
 
         scaleInSteps(act_sat_ring_10, mem_sat_ring_10[mem_frame], mem_sat_ring_10[act_frame], globalSteps);
         scaleInSteps(act_val_ring_10, mem_val_ring_10[mem_frame], mem_val_ring_10[act_frame], globalSteps);

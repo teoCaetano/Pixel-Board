@@ -56,7 +56,8 @@ enum Efectos
     EFECTO3,
     EFECTO4,
     EFECTO5,
-    EFECTO6
+    EFECTO6,
+    EFECTO7
 };
 
 extern enum Efectos Efecto;
