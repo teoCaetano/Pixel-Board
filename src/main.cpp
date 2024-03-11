@@ -30,7 +30,7 @@ FastNoiseLite noise;
 
 FastNoiseLite noise2;
 
-enum Efectos Efecto = EFECTO8;
+enum Efectos Efecto = EFECTO3;
 
 void setup()
 {

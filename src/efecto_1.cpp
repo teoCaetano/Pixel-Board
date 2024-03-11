@@ -17,27 +17,6 @@ void efecto1()
     alma1.setAlmaTo(alma1.valueEffecto, 250);
     alma1.setNoiseWarpSeed(500);
 
-    alma1.setAlmaRingTo(alma1.valueEffecto, 10, 150);
-    alma1.setAlmaRingTo(alma1.valueEffecto, 9, 100);
-    alma1.setAlmaRingTo(alma1.valueEffecto, 8, 50);
-    alma1.setAlmaRingTo(alma1.valueEffecto, 7, 0);
-    alma1.setAlmaRingTo(alma1.valueEffecto, 6, 0);
-    alma1.setAlmaRingTo(alma1.valueEffecto, 5, 0);
-    alma1.setAlmaRingTo(alma1.valueEffecto, 4, 0);
-    alma1.setAlmaRingTo(alma1.valueEffecto, 3, 0);
-    alma1.setAlmaRingTo(alma1.valueEffecto, 2, 0);
-    alma1.setAlmaRingTo(alma1.valueEffecto, 1, 0);
-
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 10, 200);
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 9, 200);
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 8, 200);
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 7, 200);
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 6, 200);
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 5, 200);
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 4, 200);
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 3, 200);
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 2, 200);
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 1, 200);
 
     unsigned int reloj = 0;
     int hue = 0;
@@ -70,13 +49,13 @@ void efecto1()
             }
             reloj = millis();
         }
-        noise.SetFrequency(0.5f);
-        noise2.SetFrequency(0.5f);
+        noise.SetFrequency(0.9f);
+        noise2.SetFrequency(0.9f);
 
         alma1.setAlmaTo(alma1.hueEffecto, hue);
         alma1.setNoiseWarp(FastNoiseLite::DomainWarpType_BasicGrid, sumFloat, 0);
-        alma1.setAlmaNoiseTo(noise, alma1.valueNoise, 40);
-        alma1.setAlmaNoiseTo(noise2, alma1.saturationNoise, 40);
+        alma1.setAlmaNoiseTo(noise, alma1.valueNoise, 250);
+        alma1.setAlmaNoiseTo(noise2, alma1.saturationNoise, 250);
         algoo.clearBuffer();
         alma1.writeToFrame();
         algoo.updateFrameBuffer(frameBuffer);
