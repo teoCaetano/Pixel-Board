@@ -19,7 +19,7 @@ public:
     std::vector<int> valueEffecto;
     std::vector<bool> ringEnable;
 
-    classArco(classFrame algooo);
+    classArco(classFrame &algooo);
 
     void setAngluoInValues(int minA, int maxA);
 
@@ -39,7 +39,7 @@ public:
     ~classArco();
 };
 
-classArco::classArco(classFrame algooo) : algo(algooo)
+classArco::classArco(classFrame &algooo) : algo(algooo)
 {
     frameBufferSize_ef = algo.getFrameBufferSize();
     hueEffecto.resize(frameBufferSize_ef, -1);
@@ -57,6 +57,7 @@ void classArco::writeToFrame()
             if (hueEffecto[i] > -1)
             {
                 algo.setHueFromAdress(i, hueEffecto[i]);
+
             }
             if (saturationEffecto[i] > -1)
             {
@@ -127,7 +128,7 @@ void classArco::setAngluoInValues(int minA, int maxA)
     }
 }
 
-void classArco::setArcoRingsFade( std::vector<int> &vec, int from, int to)
+void classArco::setArcoRingsFade(std::vector<int> &vec, int from, int to)
 {
     int maxRad = algo.getMaxRadioValido();
     int minRad = algo.getMinRadio();

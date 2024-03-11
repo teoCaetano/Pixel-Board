@@ -8,6 +8,7 @@
 #include "efecto_5.h"
 #include "efecto_6.h"
 #include "efecto_7.h"
+#include "efecto_8.h"
 #include "graphics.h"
 #include "main.h"
 #include "classFrame.h"
@@ -29,7 +30,7 @@ FastNoiseLite noise;
 
 FastNoiseLite noise2;
 
-enum Efectos Efecto = EFECTO7;
+enum Efectos Efecto = EFECTO8;
 
 void setup()
 {
@@ -89,6 +90,9 @@ void loop()
   case EFECTO7:
     Serial.println("efecto 7");
     efecto7();
+  case EFECTO8:
+    Serial.println("efecto 8");
+    efecto8();
     break;
   default:
     break;
@@ -123,6 +127,8 @@ void serialCheck()
       Efecto = EFECTO6;
     else if (ch == '7')
       Efecto = EFECTO7;
+    else if (ch == '8')
+      Efecto = EFECTO8;
   }
 }
 

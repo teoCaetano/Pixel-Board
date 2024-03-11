@@ -71,7 +71,7 @@ void efecto5()
 
             reloj = millis();
         }
-        if (millis() > relojTimeStop + 10000)
+        if (millis() > relojTimeStop + 4000)
         {
             if ((255 - hue) < 20)
             {

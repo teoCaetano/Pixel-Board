@@ -134,19 +134,11 @@ void classFrame::updateFrameBuffer(uint8_t buffer[][3])
 {
     for (int i = 0; i < frameBufferSize; i++)
     {
+        buffer[i][0] = hueBuffer[i];
 
-        if (buffer[i][0] != hueBuffer[i])
-        {
-            buffer[i][0] = hueBuffer[i];
-        }
-        if (buffer[i][1] != saturationBuffer[i])
-        {
-            buffer[i][1] = saturationBuffer[i];
-        }
-        if (buffer[i][2] = valueBuffer[i])
-        {
-            buffer[i][2] = valueBuffer[i];
-        }
+        buffer[i][1] = saturationBuffer[i];
+
+        buffer[i][2] = valueBuffer[i];
     }
 }
 void classFrame::clearBuffer()
@@ -616,7 +608,7 @@ int classFrame::getMaxRadioValido()
         }
         else
         {
-            valor = width_cl / 2 ;
+            valor = width_cl / 2;
         }
     }
     else

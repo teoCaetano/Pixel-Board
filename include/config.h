@@ -43,7 +43,7 @@
 * @brief max Brigthness of the system
  If you have twinkle in the leds, maybe you have to increase the BRIGTHNESS variable
 */
-#define BRIGHTNESS  50
+#define BRIGHTNESS  40
 
 #define HEIGHT 20 // Y axis
 #define WIDTH 20 // X axis 

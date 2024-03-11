@@ -23,7 +23,7 @@ public:
     std::vector<int> valueEffecto;
     std::vector<bool> ringEnable;
 
-    classArco(classFrame algooo);
+    classArco(classFrame &algooo);
 
     void setAngluoInValues(int minA, int maxA);
     //---------------------------------------------------------------------------------
