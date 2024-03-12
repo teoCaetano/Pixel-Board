@@ -24,7 +24,7 @@
 /*
     @brief keep at 1 if if your pixels are 1 led, and 2 if the pixels are 2, and so on forth
 */
-#define LEDS_PER_PIXEL 3
+#define LEDS_PER_PIXEL 1
 /*
     @brief false if your matrix is custom
 */
