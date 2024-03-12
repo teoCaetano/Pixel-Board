@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <FastLED.h>
 #include "config.h"
+#include "Debug_tools.h"
 #include "efecto_1.h"
 #include "efecto_2.h"
 #include "efecto_3.h"
@@ -30,7 +31,7 @@ FastNoiseLite noise;
 
 FastNoiseLite noise2;
 
-enum Efectos Efecto = EFECTO3;
+enum Efectos Efecto = NINGUNO;
 
 void setup()
 {
@@ -66,6 +67,10 @@ void loop()
 {
   switch (Efecto)
   {
+  case NINGUNO:
+    Serial.println("DEBUG");
+    DebugFrame();
+    break;
   case EFECTO1:
     Serial.println("efecto 1");
     efecto1();
