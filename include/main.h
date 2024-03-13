@@ -63,6 +63,9 @@ enum Efectos
 
 extern enum Efectos Efecto;
 
+void initEfectos();
+
+
 void serialCheck();
 void subirSpeed();
 void bajarSpeed();

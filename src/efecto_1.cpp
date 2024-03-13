@@ -52,10 +52,9 @@ void efecto1()
         noise.SetFrequency(0.9f);
         noise2.SetFrequency(0.9f);
 
-        alma1.setAlmaTo(alma1.hueEffecto, hue);
         alma1.setNoiseWarp(FastNoiseLite::DomainWarpType_BasicGrid, sumFloat, 0);
-        alma1.setAlmaNoiseTo(noise, alma1.valueNoise, 250);
-        alma1.setAlmaNoiseTo(noise2, alma1.saturationNoise, 250);
+        alma1.setAlmaNoiseTo(noise, alma1.hueEffecto, 0);
+        alma1.setAlmaNoiseTo(noise2, alma1.hueEffecto, 50);
         algoo.clearBuffer();
         alma1.writeToFrame();
         algoo.updateFrameBuffer(frameBuffer);

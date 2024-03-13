@@ -13,28 +13,7 @@
 // LIENZO ROTAR
 void efecto7()
 {
-
-    alma1.setAlmaRingTo(alma1.valueEffecto, 10, 255);
-    alma1.setAlmaRingTo(alma1.valueEffecto, 9, 250);
-    alma1.setAlmaRingTo(alma1.valueEffecto, 8, 245);
-    alma1.setAlmaRingTo(alma1.valueEffecto, 7, 225);
-    alma1.setAlmaRingTo(alma1.valueEffecto, 6, 200);
-    alma1.setAlmaRingTo(alma1.valueEffecto, 5, 140);
-    alma1.setAlmaRingTo(alma1.valueEffecto, 4, 100);
-    alma1.setAlmaRingTo(alma1.valueEffecto, 3, 50);
-    alma1.setAlmaRingTo(alma1.valueEffecto, 2, 10);
-    alma1.setAlmaRingTo(alma1.valueEffecto, 1, 0);
-
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 10, 25);
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 9, 45);
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 8, 65);
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 7, 100);
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 6, 140);
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 5, 200);
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 4, 215);
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 3, 180);
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 2, 180);
-    alma1.setAlmaRingTo(alma1.saturationEffecto, 1, 0);
+    initEfectos();
 
     alma1.setAlmaTo(alma1.hueEffecto, alma1.getBufferHue());
 

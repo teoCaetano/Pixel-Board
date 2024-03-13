@@ -19,7 +19,8 @@ void DebugFrame()
             if (frame2PixelLedMap[i]>-1)
             {
                 updatePixel(i, 0, 250, 250);
-                delay(100);
+                Serial.println(frame2PixelLedMap[i]);
+                delay(1000);
             }
             
         }
