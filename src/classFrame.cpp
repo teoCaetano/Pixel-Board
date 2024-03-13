@@ -525,22 +525,6 @@ void classFrame::constructorPolar()
         valor_X = XCordenates[index];
         valor_Y = YCordinates[index];
 
-        if (valor_X < 0)
-        {
-            valor_X = valor_X + 0.5f;
-        }
-        if (valor_X > 0)
-        {
-            valor_X = valor_X - 0.5f;
-        }
-        if (valor_Y < 0)
-        {
-            valor_Y = valor_Y + 0.5f;
-        }
-        if (valor_Y > 0)
-        {
-            valor_Y = valor_Y - 0.5f;
-        }
         // calculo la hipotenusa
         radio = (valor_X * valor_X) + (valor_Y * valor_Y);
         // falta exepcion para un lado par y un lado impar o viceversa
