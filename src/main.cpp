@@ -28,6 +28,31 @@ uint8_t frameBuffer[FRAME_BUFFER_SIZE][3];
   inicializar los arrays frame2PixelLedMap y ledsPerPixel_prueba a los valores de la matriz
 */
 
+int ledsPerPixel_prueba[FRAME_BUFFER_SIZE];
+
+int frame2PixelLedMap[FRAME_BUFFER_SIZE] = { 
+ -1,  -1,  -1,  -1,  -1,  -1,  -1,  15,  12,   9,   6,   3,   0,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
+ -1,  -1,  -1,  -1,  -1,  18,  21,  24,  27,  30,  33,  36,  39,  42,  45,  -1,  -1,  -1,  -1,  -1,
+ -1,  -1,  -1,  87,  84,  81,  78,  75,  72,  69,  66,  63,  60,  57,  54,  51,  48,  -1,  -1,  -1,
+ -1,  -1,  90,  93,  96,  99, 102, 105, 108, 111, 114, 117, 120, 123, 126, 129, 132, 135,  -1,  -1,
+ -1,  -1, 183, 180, 177, 174, 171, 168, 165, 162, 159, 156, 153, 150, 147, 144, 141, 138,  -1,  -1,
+ -1, 186, 189, 192, 195, 198, 201, 204, 207, 210, 213, 216, 219, 222, 225, 228, 231, 234, 237,  -1,
+ -1, 291, 288, 285, 282, 279, 276, 273, 270, 267, 264, 261, 258, 255, 252, 249, 246, 243, 240,  -1,
+294, 297, 300, 303, 306, 309, 312, 315, 318, 321, 324, 327, 330, 333, 336, 339, 342, 345, 348, 351,
+411, 408, 405, 402, 399, 396, 393, 390, 387, 384, 381, 378, 375, 372, 369, 366, 363, 360, 357, 354,
+414, 417, 420, 423, 426, 429, 432, 435, 438, 441, 444, 447, 450, 453, 456, 459, 462, 465, 468, 471,
+531, 528, 525, 522, 519, 516, 513, 510, 507, 504, 501, 498, 495, 492, 489, 486, 483, 480, 477, 474,
+534, 537, 540, 543, 546, 549, 552, 555, 558, 561, 564, 567, 570, 573, 576, 579, 582, 585, 588, 591,
+651, 648, 645, 642, 639, 636, 633, 630, 627, 624, 621, 618, 615, 612, 609, 606, 603, 600, 597, 594, 
+ -1, 654, 657, 660, 663, 666, 669, 672, 675, 678, 681, 684, 687, 690, 693, 696, 699, 702, 705,  -1,
+ -1, 759, 756, 753, 750, 747, 744, 741, 738, 735, 732, 729, 726, 723, 720, 717, 714, 711, 708,  -1,
+ -1,  -1, 762, 765, 768, 771, 774, 777, 780, 783, 786, 789, 792, 795, 798, 801, 804, 807,  -1,  -1,
+ -1,  -1, 855, 852, 849, 846, 843, 840, 837, 834, 831, 828, 825, 822, 819, 816, 813, 810,  -1,  -1,
+ -1,  -1,  -1, 858, 861, 864, 867, 870, 873, 876, 879, 882, 885, 888, 891, 894, 897,  -1,  -1,  -1,
+ -1,  -1,  -1,  -1,  -1, 927, 924, 921, 918, 915, 912, 909, 906, 903, 900,  -1,  -1,  -1,  -1,  -1,
+ -1,  -1,  -1,  -1,  -1,  -1,  -1, 930, 933, 936, 939, 942, 945,  -1,  -1,  -1,  -1,  -1,  -1,  -1};
+
+/*
 int frame2PixelLedMap[FRAME_BUFFER_SIZE] = {
     -1, -1, -1, -1, -1, -1, 0, 1, 4, 7, 10, 13, 16, 19, -1, -1, -1, -1, -1, -1,
     -1, -1, -1, -1, 20, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, -1, -1, -1, -1,
@@ -74,6 +99,8 @@ int ledsPerPixel_prueba[FRAME_BUFFER_SIZE] = {
     -1, -1, -1, -1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, -1, -1, -1, -1,     // R3
     -1, -1, -1, -1, -1, -1, 1, 3, 3, 3, 3, 3, 3, 2, -1, -1, -1, -1, -1, -1  // R3
 };
+*/
+
 
 // objetos globales
 
@@ -83,7 +110,7 @@ classAlma alma1(algoo);
 FastNoiseLite noise;
 FastNoiseLite noise2;
 
-enum Efectos Efecto = EFECTO7;
+enum Efectos Efecto = EFECTO3;
 
 void initEfectos();
 
@@ -98,9 +125,9 @@ void setup()
   /*
     commentar estos 3 metodos de algo en caso de no usar matrix constructor para generar los mapas de la matriz
   */
-  // algoo.matrixConstructor(SERPENTY, START_LOCATION, SYMETRIC, 3, ROUND_MATRIX);
-  // algoo.writeLedsPerPixelsTo(ledsPerPixel_prueba);
-  // algoo.writepixelLedMapTo(frame2PixelLedMap);
+  algoo.matrixConstructor(SERPENTY, START_LOCATION, SYMETRIC, 3, ROUND_MATRIX);
+  algoo.writeLedsPerPixelsTo(ledsPerPixel_prueba);
+  //algoo.writepixelLedMapTo(frame2PixelLedMap);
   FastLED.addLeds<CHIPSET, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS);
   FastLED.setBrightness(br);
   FastLED.clear();

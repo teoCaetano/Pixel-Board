@@ -180,6 +180,7 @@ void classFrame::matrixConstructor(bool serpenty, bool start, bool simetria, int
     if (round == true)
     {
         radioMaximo = (width_cl / 2);
+        radioMaximo++;
     }
     else
     {
