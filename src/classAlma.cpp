@@ -318,7 +318,10 @@ void classAlma::setAlmaNoiseTo(FastNoiseLite objetoNs, std::vector<int> &vec, in
         val = val * mapTo;
         val_int = val;
         uint8Rango(val_int);
-        vec[i] = val;
+        if (algo.getRadFromAdress(i) < 7)
+        {
+            vec[i] = val;
+        }
     }
 }
 
